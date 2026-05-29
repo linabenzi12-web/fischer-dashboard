@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+demo_leads.csv
+insert_n8n.js
+insert_demo_data.py
