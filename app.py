@@ -58,8 +58,10 @@ st.markdown("""
 # Gold  = versendet / Chef  → Fischer-Gold #c9a227
 # Rot   = Infos fehlen      → Ziegelrot   #b85c4b
 
-def color_for_status(label: str) -> str:
+def color_for_status(label) -> str:
     """Ampel-Farbe per Teilstring-Match (ASCII-safe, Umlaute egal)."""
+    if not label or not isinstance(label, str):
+        return "#9ca3af"
     l = label.lower()
     if "erteilt"   in l:                  return "#6e9b71"   # Salbeigrün
     if "chef"      in l:                  return "#2563a8"   # Stahlblau
@@ -67,8 +69,10 @@ def color_for_status(label: str) -> str:
     if "infos"     in l or "wartet" in l: return "#b85c4b"   # Ziegelrot
     return "#9ca3af"                                         # Grau
 
-def emoji_for_status(label: str) -> str:
+def emoji_for_status(label) -> str:
     """Dezenter Farbpunkt für Tabellenspalte."""
+    if not label or not isinstance(label, str):
+        return "⚪"
     l = label.lower()
     if "erteilt"   in l:                  return "🟢"
     if "chef"      in l:                  return "🔵"
