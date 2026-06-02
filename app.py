@@ -58,25 +58,29 @@ st.markdown("""
 # Gold  = versendet / Chef  → Fischer-Gold #c9a227
 # Rot   = Infos fehlen      → Ziegelrot   #b85c4b
 
+def _safe_str(label) -> str:
+    """Konvertiert jeden Wert sicher zu Python-str (robust gegen Arrow/NA/None)."""
+    try:
+        s = str(label)
+        return "" if s in ("nan", "<NA>", "None", "NaN") else s
+    except Exception:
+        return ""
+
 def color_for_status(label) -> str:
     """Ampel-Farbe per Teilstring-Match (ASCII-safe, Umlaute egal)."""
-    if not isinstance(label, str):
-        return "#9ca3af"
-    l = label.lower()
-    if "erteilt"   in l:                  return "#6e9b71"   # Salbeigrün
-    if "chef"      in l:                  return "#2563a8"   # Stahlblau
-    if "versendet" in l:                  return "#c9a227"   # Fischer-Gold
-    if "infos"     in l or "wartet" in l: return "#b85c4b"   # Ziegelrot
-    return "#9ca3af"                                         # Grau
+    l = _safe_str(label).lower()
+    if "erteilt"   in l:                  return "#6e9b71"
+    if "chef"      in l:                  return "#2563a8"
+    if "versendet" in l:                  return "#c9a227"
+    if "infos"     in l or "wartet" in l: return "#b85c4b"
+    return "#9ca3af"
 
 def emoji_for_status(label) -> str:
     """Dezenter Farbpunkt für Tabellenspalte."""
-    if not isinstance(label, str):
-        return "⚪"
-    l = label.lower()
-    if "erteilt"   in l:                  return "🟢"
-    if "chef"      in l:                  return "🔵"
-    if "versendet" in l:                  return "🟡"
+    l = _safe_str(label).lower()
+    if "erteilt"   in l: return "🟢"
+    if "chef"      in l: return "🔵"
+    if "versendet" in l: return "🟡"
     if "infos"     in l or "wartet" in l: return "🔴"
     return "⚪"
 
@@ -279,7 +283,7 @@ with col_pie:
     """, unsafe_allow_html=True)
 
     if not df.empty and "Status" in df.columns:
-        s = df["Status"].astype(str).str.strip().value_counts().reset_index()
+        s = df["Status"].astype(object).fillna("").astype(str).str.strip().value_counts().reset_index()
         s.columns = ["Status", "Anzahl"]
         palette = [color_for_status(r) for r in s["Status"]]
 
@@ -335,8 +339,9 @@ with col_table:
         out = out.sort_values("_d", ascending=False).drop(columns=["_d"])
 
     if "Status" in out.columns:
-        out["Status"] = out["Status"].astype(str).str.strip().map(
-            lambda s: f"{emoji_for_status(s)} {s}"
+        out["Status"] = (
+            out["Status"].astype(object).fillna("").astype(str).str.strip()
+            .map(lambda s: f"{emoji_for_status(s)} {s}")
         )
 
     if "Umsatz-Potenzial" in out.columns:
