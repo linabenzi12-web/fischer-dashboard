@@ -6,314 +6,309 @@
 <title>Core Automation — Operations Hub</title>
 <style>
   :root {
-    --lime: #a3e635;
-    --cyan: #22d3ee;
-    --bg: #070b0f;
-    --surface: #0d1117;
-    --surface2: #161b22;
-    --border: #21262d;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --red: #f85149;
-    --orange: #d29922;
-    --green: #3fb950;
-    --purple: #a78bfa;
+    --lime: #a3e635; --cyan: #22d3ee; --bg: #070b0f;
+    --surface: #0d1117; --surface2: #161b22; --border: #21262d;
+    --text: #e6edf3; --muted: #8b949e; --orange: #d29922; --green: #3fb950; --purple: #a78bfa;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    font-size: 14px;
-    overflow-x: hidden;
-  }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
 
   /* NAV */
   .nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 24px; height: 52px;
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 100;
+    padding: 0 24px; height: 52px; background: var(--surface);
+    border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
   }
-  .nav-brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; letter-spacing:.04em; }
-  .nav-brand .bolt { color:var(--lime); font-size:18px; }
-  .nav-brand .sub { color:var(--muted); font-weight:400; font-size:12px; margin-left:4px; }
-  .nav-tabs { display:flex; gap:2px; }
-  .nav-tab { padding:6px 18px; border-radius:6px; cursor:pointer; font-size:13px; color:var(--muted); transition:all .15s; border:none; background:none; }
-  .nav-tab:hover { color:var(--text); background:var(--surface2); }
-  .nav-tab.active { color:var(--lime); background:rgba(163,230,53,.1); }
-  .status-ind { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
-  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.5} }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+  .brand .bolt { color: var(--lime); font-size: 18px; }
+  .brand .sub { color: var(--muted); font-weight: 400; font-size: 12px; }
+  .tabs { display: flex; gap: 2px; }
+  .tab { padding: 6px 20px; border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--muted); border: none; background: none; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active { color: var(--lime); background: rgba(163,230,53,.1); font-weight: 600; }
+  .live-ind { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
 
-  /* PAGES */
-  .page { display:none; padding:24px; }
-  .page.active { display:block; }
+  /* LAYOUT */
+  .page { display: none; padding: 20px 24px 40px; }
+  .page.active { display: block; }
 
-  /* STAT CARDS */
-  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
-  .stat-card {
-    background:var(--surface); border:1px solid var(--border); border-radius:10px;
-    padding:18px 20px; position:relative; overflow:hidden;
-  }
-  .stat-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
-  .stat-card.lime::before { background:linear-gradient(90deg,var(--lime),transparent); }
-  .stat-card.cyan::before { background:linear-gradient(90deg,var(--cyan),transparent); }
-  .stat-card.orange::before { background:linear-gradient(90deg,var(--orange),transparent); }
-  .stat-card.green::before { background:linear-gradient(90deg,var(--green),transparent); }
-  .stat-card.purple::before { background:linear-gradient(90deg,var(--purple),transparent); }
-  .stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
-  .stat-value { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
-  .stat-card.lime .stat-value { color:var(--lime); }
-  .stat-card.cyan .stat-value { color:var(--cyan); }
-  .stat-card.orange .stat-value { color:var(--orange); }
-  .stat-card.green .stat-value { color:var(--green); }
-  .stat-card.purple .stat-value { color:var(--purple); }
-  .stat-sub { font-size:11px; color:var(--muted); }
+  /* CARDS */
+  .cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 18px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+  .card::after { content:''; position:absolute; top:0;left:0;right:0; height:3px; border-radius:10px 10px 0 0; }
+  .card.c-lime::after { background:var(--lime); }
+  .card.c-cyan::after { background:var(--cyan); }
+  .card.c-green::after { background:var(--green); }
+  .card.c-orange::after { background:var(--orange); }
+  .card.c-purple::after { background:var(--purple); }
+  .card-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:8px; }
+  .card-val { font-size:30px; font-weight:800; line-height:1; margin-bottom:4px; }
+  .card.c-lime .card-val { color:var(--lime); }
+  .card.c-cyan .card-val { color:var(--cyan); }
+  .card.c-green .card-val { color:var(--green); }
+  .card.c-orange .card-val { color:var(--orange); }
+  .card.c-purple .card-val { color:var(--purple); }
+  .card-sub { font-size:11px; color:var(--muted); }
 
   /* PANEL */
   .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-  .panel-header {
-    padding:14px 18px; border-bottom:1px solid var(--border);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .panel-title { font-size:13px; font-weight:600; color:var(--text); }
-  .panel-badge { font-size:11px; color:var(--muted); background:var(--surface2); padding:2px 8px; border-radius:10px; }
+  .phead { padding:13px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .ptitle { font-size:13px; font-weight:600; }
+  .pbadge { font-size:11px; color:var(--muted); background:var(--surface2); padding:2px 10px; border-radius:20px; }
+  .pbadge.active { color:var(--lime); background:rgba(163,230,53,.1); }
 
   /* TABLE */
   table { width:100%; border-collapse:collapse; }
-  thead th {
-    padding:10px 14px; text-align:left; font-size:11px; font-weight:600;
-    color:var(--muted); text-transform:uppercase; letter-spacing:.05em;
-    background:var(--surface2); border-bottom:1px solid var(--border); white-space:nowrap;
-  }
+  thead th { padding:9px 14px; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; background:var(--surface2); border-bottom:1px solid var(--border); white-space:nowrap; text-align:left; }
   tbody tr { border-bottom:1px solid var(--border); cursor:pointer; transition:background .1s; }
-  tbody tr:hover { background:var(--surface2); }
+  tbody tr:hover { background:rgba(255,255,255,.02); }
   tbody tr:last-child { border-bottom:none; }
   tbody td { padding:11px 14px; font-size:13px; vertical-align:middle; }
-  .project-id { font-family:monospace; color:var(--cyan); font-size:12px; font-weight:600; }
-  .gewerk-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; background:rgba(34,211,238,.12); color:var(--cyan); white-space:nowrap; max-width:140px; overflow:hidden; text-overflow:ellipsis; }
-  .status-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
-  .s-neu { background:rgba(139,148,158,.15); color:#8b949e; }
-  .s-pruefung { background:rgba(210,153,34,.15); color:var(--orange); }
-  .s-versandt { background:rgba(34,211,238,.15); color:var(--cyan); }
-  .s-erteilt { background:rgba(163,230,53,.15); color:var(--lime); }
-  .s-wartet { background:rgba(248,81,73,.15); color:var(--red); }
-  .sdot { width:5px; height:5px; border-radius:50%; background:currentColor; }
-  .umsatz { font-weight:600; color:var(--lime); }
-  .exp-icon { color:var(--muted); font-size:10px; }
-  .expand-row { display:none; background:#0a0f14; }
-  .expand-row td { padding:0; }
-  .exp-content { padding:16px 18px 16px 40px; border-top:1px solid var(--border); }
-  .detail-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:14px; }
-  .detail-item label { display:block; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:3px; }
-  .detail-item span { font-size:13px; color:var(--text); }
-  .pd-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
-  .pd-box { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:12px 14px; font-size:12px; color:#c9d1d9; line-height:1.6; white-space:pre-wrap; word-break:break-word; }
+  .pid { font-family:monospace; color:var(--cyan); font-size:12px; font-weight:700; }
+  .gbadge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; background:rgba(34,211,238,.1); color:var(--cyan); max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .spill { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .s-neu    { background:rgba(139,148,158,.15); color:#8b949e; }
+  .s-prue   { background:rgba(210,153,34,.15);  color:var(--orange); }
+  .s-vers   { background:rgba(34,211,238,.15);  color:var(--cyan); }
+  .s-ert    { background:rgba(163,230,53,.15);  color:var(--lime); }
+  .s-wart   { background:rgba(167,139,250,.15); color:var(--purple); }
+  .sdot2 { width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .umval { font-weight:700; color:var(--lime); }
+  .xicon { color:var(--muted); font-size:10px; user-select:none; }
+  .xrow { display:none; background:#090d12; }
+  .xrow td { padding:0; }
+  .xcontent { padding:16px 20px 16px 44px; border-top:1px solid var(--border); }
+  .xgrid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
+  .xi label { display:block; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:3px; }
+  .xi span { font-size:12px; color:var(--text); }
+  .pdbox { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:12px; font-size:12px; color:#c9d1d9; line-height:1.65; white-space:pre-wrap; word-break:break-word; }
 
-  /* STATUS BAR CHART (replaces donut) */
-  .status-chart-panel { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; }
-  .status-bar-row { margin-bottom:14px; }
-  .status-bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
-  .status-bar-name { font-size:12px; color:var(--text); }
-  .status-bar-count { font-size:12px; font-weight:600; color:var(--muted); }
-  .status-track { height:12px; background:var(--surface2); border-radius:6px; overflow:hidden; }
-  .status-fill { height:100%; border-radius:6px; transition:width .6s ease; }
-  .status-pct { font-size:10px; color:var(--muted); margin-top:3px; text-align:right; }
+  /* DONUT */
+  .donut-wrap { position:relative; display:flex; justify-content:center; align-items:center; padding:16px 0 8px; }
+  .donut-center { position:absolute; text-align:center; pointer-events:none; }
+  .donut-num { font-size:28px; font-weight:800; color:var(--text); line-height:1; }
+  .donut-lbl { font-size:10px; color:var(--muted); margin-top:2px; }
+  .legend { padding:0 18px 16px; display:flex; flex-direction:column; gap:8px; }
+  .leg-row { display:flex; align-items:center; justify-content:space-between; }
+  .leg-left { display:flex; align-items:center; gap:8px; }
+  .leg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+  .leg-name { font-size:12px; color:var(--muted); }
+  .leg-cnt { font-size:12px; font-weight:700; color:var(--text); }
 
-  /* MAIN GRID */
-  .main-grid { display:grid; grid-template-columns:1fr 280px; gap:14px; align-items:start; }
-
-  /* BAR CHART (generic) */
-  .bar-section { padding:16px; }
-  .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-  .bar-label { width:130px; font-size:11px; color:var(--muted); flex-shrink:0; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .bar-track { flex:1; background:var(--surface2); border-radius:3px; height:20px; overflow:hidden; }
-  .bar-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:600; min-width:30px; transition:width .6s ease; }
-  .bf-lime { background:linear-gradient(90deg,var(--lime),#86efac); color:#0a0a0a; }
-  .bf-cyan { background:linear-gradient(90deg,var(--cyan),#67e8f9); color:#0a0a0a; }
-  .bf-orange { background:linear-gradient(90deg,var(--orange),#fbbf24); color:#0a0a0a; }
-  .bf-green { background:linear-gradient(90deg,var(--green),#4ade80); color:#0a0a0a; }
-  .bf-purple { background:linear-gradient(90deg,var(--purple),#c4b5fd); color:#0a0a0a; }
-
-  /* ROI COMPARISON CHART */
-  .compare-grid { display:flex; gap:24px; padding:20px; align-items:flex-end; justify-content:center; }
-  .compare-col { display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; max-width:120px; }
-  .compare-bar-wrap { width:100%; display:flex; flex-direction:column; align-items:center; gap:4px; }
-  .compare-bar { width:70px; border-radius:6px 6px 0 0; display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px; font-weight:700; font-size:13px; transition:height .8s ease; }
-  .compare-label { font-size:11px; color:var(--muted); text-align:center; }
-  .compare-value { font-size:14px; font-weight:700; }
-  .compare-divider { width:2px; background:var(--border); height:100%; align-self:stretch; }
-  .vs-label { font-size:11px; color:var(--muted); writing-mode:vertical-rl; }
-
-  /* SAVINGS GAUGE */
-  .savings-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:16px; }
-  .savings-item { text-align:center; }
-  .savings-circle {
-    width:72px; height:72px; border-radius:50%;
-    border:3px solid var(--border);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    margin:0 auto 8px;
-    background:var(--surface2);
+  /* ROI BIG KPI */
+  .roi-hero { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
+  .roi-kpi {
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:24px 20px; text-align:center; position:relative; overflow:hidden;
   }
-  .savings-num { font-size:18px; font-weight:700; line-height:1; }
-  .savings-unit { font-size:9px; color:var(--muted); }
-  .savings-name { font-size:11px; color:var(--muted); }
+  .roi-kpi::before { content:''; position:absolute; inset:0; border-radius:12px; opacity:.06; }
+  .roi-kpi.k-lime::before { background:var(--lime); }
+  .roi-kpi.k-cyan::before { background:var(--cyan); }
+  .roi-kpi.k-green::before { background:var(--green); }
+  .roi-icon { font-size:28px; margin-bottom:8px; }
+  .roi-big { font-size:42px; font-weight:900; line-height:1; margin-bottom:6px; }
+  .roi-kpi.k-lime .roi-big { color:var(--lime); }
+  .roi-kpi.k-cyan .roi-big { color:var(--cyan); }
+  .roi-kpi.k-green .roi-big { color:var(--green); }
+  .roi-title { font-size:13px; font-weight:600; margin-bottom:4px; }
+  .roi-sub { font-size:11px; color:var(--muted); line-height:1.5; }
 
-  /* COST TABLE */
-  .cost-table { width:100%; }
-  .cost-table th, .cost-table td { padding:9px 16px; text-align:left; font-size:13px; }
-  .cost-table thead th { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; background:var(--surface2); border-bottom:1px solid var(--border); }
-  .cost-table tbody tr { border-bottom:1px solid var(--border); }
-  .cost-table tbody tr:last-child td { font-weight:700; border-top:2px solid var(--border); font-size:14px; }
-  .plus { color:var(--green); }
-  .minus { color:var(--red); }
-  .neutral { color:var(--muted); }
+  /* COMPARE STRIP */
+  .compare-strip { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .cs-side { padding:20px; }
+  .cs-side.before { border-right:1px solid var(--border); }
+  .cs-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px; }
+  .cs-side.before .cs-title { color:var(--muted); }
+  .cs-side.after .cs-title { color:var(--lime); }
+  .cs-item { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:12px; }
+  .cs-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+  .cs-icon.bad { background:rgba(139,148,158,.2); color:var(--muted); }
+  .cs-icon.good { background:rgba(163,230,53,.15); color:var(--lime); }
+  .cs-text { color:var(--muted); }
+  .cs-text.good { color:var(--text); }
 
-  /* KPI METRIC CARDS */
-  .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:16px; }
-  .kpi-item { background:var(--surface2); border-radius:8px; padding:12px; text-align:center; border:1px solid var(--border); }
-  .kpi-val { font-size:22px; font-weight:700; margin-bottom:3px; }
-  .kpi-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+  /* BAR CHART */
+  .barsec { padding:16px; }
+  .br { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+  .bl { width:130px; font-size:11px; color:var(--muted); flex-shrink:0; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bt { flex:1; background:var(--surface2); border-radius:3px; height:20px; overflow:hidden; }
+  .bf { height:100%; border-radius:3px; display:flex; align-items:center; padding:0 8px; font-size:11px; font-weight:700; min-width:40px; }
+  .bf.lime { background:linear-gradient(90deg,var(--lime),#86efac); color:#050a00; }
+  .bf.cyan { background:linear-gradient(90deg,var(--cyan),#67e8f9); color:#001a1e; }
+  .bf.orange { background:linear-gradient(90deg,var(--orange),#fbbf24); color:#0a0500; }
+  .bf.green { background:linear-gradient(90deg,var(--green),#4ade80); color:#001a00; }
+  .bf.purple { background:linear-gradient(90deg,var(--purple),#c4b5fd); color:#0a0015; }
 
-  /* SECTION DIVIDER */
-  .section-gap { margin-bottom:16px; }
+  /* TIMELINE */
+  .tl { padding:16px 20px; }
+  .tli { display:flex; gap:14px; margin-bottom:16px; }
+  .tli:last-child { margin-bottom:0; }
+  .tl-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+  .tl-body { flex:1; padding-top:4px; }
+  .tl-t { font-size:13px; font-weight:700; margin-bottom:3px; }
+  .tl-d { font-size:12px; color:var(--muted); line-height:1.55; }
 
   /* LOADING */
   .loading { display:flex; align-items:center; justify-content:center; gap:8px; padding:40px; color:var(--muted); font-size:13px; }
-  .spinner { width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--cyan); border-radius:50%; animation:spin .8s linear infinite; }
+  .spin { width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--cyan); border-radius:50%; animation:spin .8s linear infinite; }
   @keyframes spin { to { transform:rotate(360deg); } }
 
-  /* TIMELINE */
-  .timeline { padding:16px 20px; }
-  .tl-item { display:flex; gap:14px; margin-bottom:16px; }
-  .tl-item:last-child { margin-bottom:0; }
-  .tl-dot-wrap { display:flex; flex-direction:column; align-items:center; }
-  .tl-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:2px; }
-  .tl-line { flex:1; width:1px; background:var(--border); margin-top:4px; }
-  .tl-content { flex:1; }
-  .tl-title { font-size:13px; font-weight:600; margin-bottom:2px; }
-  .tl-desc { font-size:12px; color:var(--muted); }
+  /* UEBERSICHT 2-col */
+  .ue-grid { display:grid; grid-template-columns:1fr 290px; gap:14px; align-items:start; }
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <div class="nav-brand">
+  <div class="brand">
     <span class="bolt">&#9889;</span>
-    <span>Core Automation</span>
-    <span class="sub">/ Fischer Technik Operations Hub</span>
+    Core Automation
+    <span class="sub">&#47; Fischer Technik Operations Hub</span>
   </div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('uebersicht',this)">&#220;bersicht</button>
-    <button class="nav-tab" onclick="showPage('roi',this)">ROI &amp; Performance</button>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ue',this)">&#220;bersicht</button>
+    <button class="tab" onclick="showTab('roi',this)">ROI &amp; Performance</button>
   </div>
-  <div class="status-ind">
-    <div class="dot" id="liveDot"></div>
-    <span>Live</span>
-    <span style="font-size:11px;color:var(--muted)" id="lastUpdate">&#8211;</span>
+  <div class="live-ind">
+    <span class="live-dot" id="liveDot"></span>
+    <span id="liveStatus">Verbinde&#8230;</span>
   </div>
 </nav>
 
-<!-- ÜBERSICHT -->
-<div class="page active" id="page-uebersicht">
-  <div class="stat-grid">
-    <div class="stat-card lime"><div class="stat-label">Gesamt Leads</div><div class="stat-value" id="s-total">&#8211;</div><div class="stat-sub">Alle Projekte</div></div>
-    <div class="stat-card cyan"><div class="stat-label">Angebote versandt</div><div class="stat-value" id="s-versandt">&#8211;</div><div class="stat-sub">Warten auf R&#252;ckmeldung</div></div>
-    <div class="stat-card green"><div class="stat-label">Auftrag erteilt</div><div class="stat-value" id="s-erteilt">&#8211;</div><div class="stat-sub">Best&#228;tigte Projekte</div></div>
-    <div class="stat-card orange"><div class="stat-label">Umsatz-Pipeline</div><div class="stat-value" id="s-umsatz">&#8211;</div><div class="stat-sub">Gesamt-Potenzial</div></div>
+<!-- ============ ÜBERSICHT ============ -->
+<div class="page active" id="page-ue">
+  <div class="cards">
+    <div class="card c-lime"><div class="card-lbl">Gesamt Kunden</div><div class="card-val" id="u-total">&#8211;</div><div class="card-sub">Alle Anfragen im System</div></div>
+    <div class="card c-orange"><div class="card-lbl">Angebot ausst&#228;ndig</div><div class="card-val" id="u-offen">&#8211;</div><div class="card-sub">Noch zu erstellen &amp; versenden</div></div>
+    <div class="card c-cyan"><div class="card-lbl">Angebot versandt</div><div class="card-val" id="u-versandt">&#8211;</div><div class="card-sub">Warten auf Kundenzusage</div></div>
+    <div class="card c-green"><div class="card-lbl">Auftrag erteilt</div><div class="card-val" id="u-erteilt">&#8211;</div><div class="card-sub">Best&#228;tigte Auftr&#228;ge &#8364; <span id="u-erteilt-sum"></span></div></div>
   </div>
 
-  <div class="main-grid section-gap">
+  <div class="ue-grid">
     <!-- TABLE -->
     <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Leads &amp; Projekte</span>
-        <span class="panel-badge" id="tableCount">&#8211;</span>
+      <div class="phead">
+        <span class="ptitle">Alle Kunden &amp; Projekte</span>
+        <span class="pbadge" id="tcount">&#8211;</span>
       </div>
-      <div id="tableWrap"><div class="loading"><div class="spinner"></div> Lade Daten von Google Sheets&#8230;</div></div>
+      <div id="tableWrap"><div class="loading"><div class="spin"></div> Lade Daten&#8230;</div></div>
     </div>
 
-    <!-- STATUS BAR CHART -->
-    <div class="status-chart-panel">
-      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:16px">Status-Verteilung</div>
-      <div id="statusBars"><div class="loading"><div class="spinner"></div></div></div>
-      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Umsatz-Pipeline</div>
-        <div id="umsatzMini"><div class="loading"><div class="spinner"></div></div></div>
+    <!-- DONUT -->
+    <div class="panel">
+      <div class="phead"><span class="ptitle">Status-&#220;bersicht</span></div>
+      <div class="donut-wrap">
+        <svg id="donut" width="180" height="180" viewBox="0 0 180 180"></svg>
+        <div class="donut-center">
+          <div class="donut-num" id="donut-num">&#8211;</div>
+          <div class="donut-lbl">Projekte</div>
+        </div>
+      </div>
+      <div class="legend" id="donut-legend"></div>
+      <div style="margin:0 18px 16px;padding:12px;background:rgba(163,230,53,.07);border:1px solid rgba(163,230,53,.2);border-radius:8px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Umsatz-Pipeline</div>
+        <div style="font-size:20px;font-weight:800;color:var(--lime)" id="pipelineVal">&#8211;</div>
+        <div style="font-size:11px;color:var(--muted)" id="pipelineNote"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ROI & PERFORMANCE -->
+<!-- ============ ROI & PERFORMANCE ============ -->
 <div class="page" id="page-roi">
-  <div class="stat-grid">
-    <div class="stat-card cyan"><div class="stat-label">Versendete Angebote</div><div class="stat-value" id="r-offers">&#8211;</div><div class="stat-sub">KI-generiert &amp; versandt</div></div>
-    <div class="stat-card orange"><div class="stat-label">&#216; Projektgr&#246;&#223;e</div><div class="stat-value" id="r-avg">&#8211;</div><div class="stat-sub">Durchschn. Auftragswert</div></div>
-    <div class="stat-card green"><div class="stat-label">Best&#228;tigter Umsatz</div><div class="stat-value" id="r-confirmed">&#8211;</div><div class="stat-sub">Erteilte Auftr&#228;ge</div></div>
-    <div class="stat-card purple"><div class="stat-label">Gesparte Zeit (mtl.)</div><div class="stat-value" id="r-time">&#8211;</div><div class="stat-sub">bei 50 &#8364;/h = <span id="r-timeval">&#8211;</span></div></div>
+  <!-- HERO -->
+  <div style="text-align:center;margin-bottom:24px">
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Das bringt Core Automation Fischer Technik</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text)">Mehr Auftr&#228;ge. Weniger Aufwand. Jeden Tag.</div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
-    <!-- COMPARISON CHART -->
+  <div class="roi-hero">
+    <div class="roi-kpi k-lime">
+      <div class="roi-icon">&#9201;</div>
+      <div class="roi-big" id="r-hours">&#8211;</div>
+      <div class="roi-title">Stunden gespart pro Monat</div>
+      <div class="roi-sub">Angebote schreiben und E-Mails lesen&#8201;&#8212; erledigt das System automatisch</div>
+    </div>
+    <div class="roi-kpi k-cyan">
+      <div class="roi-icon">&#128229;</div>
+      <div class="roi-big" id="r-offers">&#8211;</div>
+      <div class="roi-title">Angebote automatisch versandt</div>
+      <div class="roi-sub">Jeder Kunde erh&#228;lt innerhalb von Minuten ein professionelles Angebot</div>
+    </div>
+    <div class="roi-kpi k-green">
+      <div class="roi-icon">&#128176;</div>
+      <div class="roi-big" id="r-umsatz">&#8211;</div>
+      <div class="roi-title">Gesicherter Umsatz</div>
+      <div class="roi-sub">Wert der bereits best&#228;tigten Auftr&#228;ge im System</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+    <!-- OHNE vs MIT -->
     <div class="panel">
-      <div class="panel-header"><span class="panel-title">Ohne vs. Mit Core Automation</span><span class="panel-badge">Monatlich</span></div>
-      <div id="compareChart">
-        <div class="compare-grid" id="compareGrid"></div>
-        <div style="padding:0 20px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px" id="compareStats"></div>
+      <div class="phead"><span class="ptitle">Ohne vs. Mit Core Automation</span></div>
+      <div class="compare-strip">
+        <div class="cs-side before">
+          <div class="cs-title">Vorher &#8212; Manuell</div>
+          <div class="cs-item"><span class="cs-icon bad">&#8593;</span><span class="cs-text" id="c-hours-before">&#8211; Stunden Arbeit pro Monat</span></div>
+          <div class="cs-item"><span class="cs-icon bad">&#8635;</span><span class="cs-text">Tage bis ein Angebot rausgeht</span></div>
+          <div class="cs-item"><span class="cs-icon bad">&#128533;</span><span class="cs-text">Kunden warten, verlieren Geduld</span></div>
+          <div class="cs-item"><span class="cs-icon bad">&#128196;</span><span class="cs-text">Angebote von Hand tippen</span></div>
+          <div class="cs-item"><span class="cs-icon bad">&#128274;</span><span class="cs-text">Nach Feierabend keine Reaktion</span></div>
+        </div>
+        <div class="cs-side after">
+          <div class="cs-title">Jetzt &#8212; Automatisch</div>
+          <div class="cs-item"><span class="cs-icon good">&#10003;</span><span class="cs-text good"><b>0 Stunden</b> Aufwand</span></div>
+          <div class="cs-item"><span class="cs-icon good">&#10003;</span><span class="cs-text good">Angebot in <b>&lt; 5 Minuten</b></span></div>
+          <div class="cs-item"><span class="cs-icon good">&#10003;</span><span class="cs-text good">Kunden bekommen sofort Antwort</span></div>
+          <div class="cs-item"><span class="cs-icon good">&#10003;</span><span class="cs-text good">KI erstellt Angebot automatisch</span></div>
+          <div class="cs-item"><span class="cs-icon good">&#10003;</span><span class="cs-text good"><b>24/7</b> aktiv, auch Sonntags</span></div>
+        </div>
       </div>
-    </div>
-
-    <!-- COST TABLE -->
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">Kosten-Nutzen-Analyse</span><span class="panel-badge">pro Monat</span></div>
-      <table class="cost-table">
-        <thead><tr><th>Position</th><th>Betrag</th></tr></thead>
-        <tbody id="costBody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
-    <!-- KI METRIKEN -->
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">KI-Automatisierung Metriken</span></div>
-      <div class="kpi-grid" id="kiMetrics"></div>
-      <div style="padding:0 16px 16px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Zeitersparnis-Aufschl&#252;sselung</div>
-        <div id="timeChart"></div>
+      <div style="padding:14px 16px;border-top:1px solid var(--border);background:rgba(163,230,53,.05);text-align:center">
+        <span style="font-size:12px;color:var(--muted)">Gespartes Arbeitsvolumen im Wert von </span>
+        <span style="font-size:16px;font-weight:800;color:var(--lime)" id="r-savedval">&#8211;</span>
+        <span style="font-size:12px;color:var(--muted)"> pro Monat</span>
       </div>
     </div>
 
     <!-- UMSATZ NACH GEWERK -->
     <div class="panel">
-      <div class="panel-header"><span class="panel-title">Umsatz nach Gewerk</span></div>
-      <div class="bar-section" id="barChart"><div class="loading"><div class="spinner"></div> Lade&#8230;</div></div>
+      <div class="phead"><span class="ptitle">Umsatz-Pipeline nach Gewerk</span></div>
+      <div class="barsec" id="gewerk-bars"><div class="loading"><div class="spin"></div></div></div>
     </div>
   </div>
 
   <!-- WORKFLOW ABLAUF -->
-  <div class="panel section-gap">
-    <div class="panel-header"><span class="panel-title">Automatisierter Workflow-Ablauf</span><span class="panel-badge" style="color:var(--lime)">Aktiv</span></div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--cyan)"></div><div class="tl-line"></div></div>
-        <div class="tl-content"><div class="tl-title" style="color:var(--cyan)">1. Lead-Eingang via E-Mail</div><div class="tl-desc">Eingehende Kundenanfragen werden automatisch erkannt, klassifiziert und in Google Sheets erfasst &#8212; rund um die Uhr, ohne manuellen Aufwand.</div></div>
+  <div class="panel" style="margin-bottom:14px">
+    <div class="phead"><span class="ptitle">Wie Core Automation f&#252;r Sie arbeitet</span><span class="pbadge active">Aktiv</span></div>
+    <div class="tl">
+      <div class="tli">
+        <div class="tl-icon" style="background:rgba(34,211,238,.15);color:var(--cyan)">&#9993;</div>
+        <div class="tl-body"><div class="tl-t" style="color:var(--cyan)">1. Kundenanfrage kommt per E-Mail</div><div class="tl-d">Das System erkennt neue Anfragen automatisch &#8212; rund um die Uhr, 7 Tage die Woche. Kein manuelles Pr&#252;fen des Postfachs n&#246;tig.</div></div>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div>
-        <div class="tl-content"><div class="tl-title" style="color:var(--orange)">2. KI-Qualifizierung &amp; Angebots-Erstellung</div><div class="tl-desc">Claude KI analysiert Projektdetails, Gewerk und Kundenanforderungen. In Sekunden wird ein professionelles, individuelles Angebot generiert.</div></div>
+      <div class="tli">
+        <div class="tl-icon" style="background:rgba(210,153,34,.15);color:var(--orange)">&#129504;</div>
+        <div class="tl-body"><div class="tl-t" style="color:var(--orange)">2. KI analysiert und erstellt das Angebot</div><div class="tl-d">Innerhalb von Sekunden analysiert die KI das Projekt, den Kunden und die Anforderungen &#8212; und schreibt ein vollst&#228;ndiges, professionelles Angebot.</div></div>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--lime)"></div><div class="tl-line"></div></div>
-        <div class="tl-content"><div class="tl-title" style="color:var(--lime)">3. Jens pr&#252;ft &amp; best&#228;tigt per Telegram</div><div class="tl-desc">Das Angebot landet direkt bei Jens auf dem Smartphone. Mit einem einfachen &#8222;ok FT-XXXX&#8220; wird es automatisch an den Kunden versandt.</div></div>
+      <div class="tli">
+        <div class="tl-icon" style="background:rgba(163,230,53,.15);color:var(--lime)">&#128241;</div>
+        <div class="tl-body"><div class="tl-t" style="color:var(--lime)">3. Jens best&#228;tigt per Smartphone</div><div class="tl-d">Das Angebot landet direkt auf Jens&#8217; Handy. Ein kurze Nachricht &#8222;ok FT-XXXX&#8220; gen&#252;gt &#8212; das System verschickt es sofort an den Kunden.</div></div>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--green)"></div></div>
-        <div class="tl-content"><div class="tl-title" style="color:var(--green)">4. Vollautomatische Nachverfolgung</div><div class="tl-desc">Status, Version und Angebotsverlauf werden automatisch im CRM aktualisiert. Korrekturen per Telegram-Befehl m&#246;glich &#8212; jederzeit, von &#252;berall.</div></div>
+      <div class="tli">
+        <div class="tl-icon" style="background:rgba(63,185,80,.15);color:var(--green)">&#128200;</div>
+        <div class="tl-body"><div class="tl-t" style="color:var(--green)">4. Alles wird automatisch dokumentiert</div><div class="tl-d">Jeder Auftrag, jede Version, jeder Status &#8212; automatisch im System gespeichert. Immer Ort und Zeit im Blick, ohne Zettelwirtschaft.</div></div>
       </div>
     </div>
+  </div>
+
+  <!-- BOTTOM NOTE -->
+  <div style="background:linear-gradient(135deg,rgba(163,230,53,.08),rgba(34,211,238,.05));border:1px solid rgba(163,230,53,.2);border-radius:12px;padding:20px 24px;text-align:center">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Investition vs. Nutzen auf einen Blick</div>
+    <div style="font-size:28px;font-weight:900;color:var(--lime)" id="r-roi-headline">&#8211;</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px">Ersparnis pro Monat bei einem Stundensatz von 50 &#8364; &#8212; der Selbstl&#228;ufer, der sich vielfach bezahlt macht.</div>
   </div>
 </div>
 
@@ -321,416 +316,297 @@
 var SHEET_ID = '1DKINRTQQHVPOEIrCpfyPiarmdxtOowI_GLVATMHz-SM';
 var CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv&gid=0';
 
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.nav-tab').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('page-' + id).classList.add('active');
+function showTab(id, btn) {
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
 }
 
-/* ---- CSV PARSING ---- */
-function parseCSV(text) {
-  var lines = text.replace(/\r/g,'').trim().split('\n');
+/* CSV */
+function parseCSV(raw) {
+  var lines = raw.replace(/\r/g,'').trim().split('\n');
   if (lines.length < 2) return [];
-  var headers = splitLine(lines[0]);
-  var rows = [];
-  for (var i = 1; i < lines.length; i++) {
+  var hdrs = splitLine(lines[0]);
+  var out = [];
+  for (var i=1;i<lines.length;i++){
     if (!lines[i].trim()) continue;
     var vals = splitLine(lines[i]);
-    var obj = {};
-    headers.forEach(function(h,j){ obj[h.trim()] = (vals[j]||'').trim(); });
-    if (obj['Projekt-ID'] || obj['Kunden-Name']) rows.push(obj);
+    var obj={};
+    hdrs.forEach(function(h,j){ obj[h.replace(/^﻿/,'').trim()] = (vals[j]||'').trim(); });
+    if (obj['Projekt-ID']||obj['Kunden-Name']) out.push(obj);
   }
-  console.log('[Dashboard] Headers:', headers);
-  console.log('[Dashboard] Sample row:', rows[0]);
-  return rows;
+  if (out.length) console.log('[DB] cols:', Object.keys(out[0]));
+  return out;
 }
-
-function splitLine(line) {
-  var res=[], cur='', inQ=false;
-  for (var i=0;i<line.length;i++){
+function splitLine(line){
+  var res=[],cur='',q=false;
+  for(var i=0;i<line.length;i++){
     var c=line[i];
-    if(c==='"'){inQ=!inQ;}
-    else if(c===','&&!inQ){res.push(cur);cur='';}
-    else{cur+=c;}
+    if(c==='"'){q=!q;}else if(c===','&&!q){res.push(cur);cur='';}else{cur+=c;}
   }
-  res.push(cur);
-  return res;
+  return res.concat([cur]);
 }
 
-/* ---- FIELD GETTER (case-insensitive, trims BOM) ---- */
-function field(row) {
-  var cache = {};
-  Object.keys(row).forEach(function(k){
-    cache[k.replace(/^﻿/,'').trim().toLowerCase()] = row[k];
-  });
-  return function(/* ...names */) {
-    for (var i=0;i<arguments.length;i++){
-      var v = cache[arguments[i].toLowerCase()];
-      if (v !== undefined) return (v||'').trim();
+/* Field reader: case-insensitive, tries multiple aliases */
+function F(row){
+  var map={};
+  Object.keys(row).forEach(function(k){ map[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = row[k]; });
+  return function(){
+    for(var i=0;i<arguments.length;i++){
+      var k=arguments[i].toLowerCase().replace(/[^a-z0-9]/g,'');
+      if(map[k]!==undefined) return (map[k]||'').trim();
     }
     return '';
   };
 }
 
-/* ---- HELPERS ---- */
-function parseMoney(s) {
-  if (!s) return 0;
-  return parseFloat(s.replace(/[^0-9.,]/g,'').replace(',','.')) || 0;
+function money(s){
+  if(!s)return 0;
+  return parseFloat(s.replace(/[^0-9.,]/g,'').replace(',','.'))||0;
 }
-function fmtK(n) {
-  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.',',')+'M&#8239;&#8364;';
-  if (n >= 1000) return Math.round(n/1000)+'k&#8239;&#8364;';
+function fmt(n){
+  if(n>=1000000) return (n/1e6).toFixed(1).replace('.',',')+' Mio&#8239;&#8364;';
+  if(n>=1000) return Math.round(n/1000)+'k&#8239;&#8364;';
   return Math.round(n)+'&#8239;&#8364;';
 }
-function statusClass(s) {
-  var sl = (s||'').toLowerCase();
-  if (sl.indexOf('erteilt')>=0) return 's-erteilt';
-  if (sl.indexOf('versandt')>=0) return 's-versandt';
-  if (sl.indexOf('pr')>=0 && (sl.indexOf('fung')>=0||sl.indexOf('fung')>=0)) return 's-pruefung';
-  if (sl.indexOf('wartet')>=0) return 's-wartet';
+function fmtPlain(n){
+  if(n>=1000) return Math.round(n/1000)+'k EUR';
+  return Math.round(n)+' EUR';
+}
+
+/* STATUS */
+function sClass(s){
+  var l=(s||'').toLowerCase();
+  if(l.indexOf('erteilt')>=0) return 's-ert';
+  if(l.indexOf('versandt')>=0||l.indexOf('verschickt')>=0) return 's-vers';
+  if((l.indexOf('pr')>=0&&l.indexOf('fung')>=0)||l.indexOf('prüfung')>=0) return 's-prue';
+  if(l.indexOf('wartet')>=0||l.indexOf('warte')>=0) return 's-wart';
   return 's-neu';
 }
-var STATUS_COLORS = {
-  'Auftrag erteilt':'#a3e635','Angebot versandt':'#22d3ee',
-  'In Prüfung':'#d29922','Wartet auf Infos':'#f85149','Neu eingegangen':'#8b949e'
-};
-function sColor(s) {
-  var sl=(s||'').toLowerCase();
-  if(sl.indexOf('erteilt')>=0) return '#a3e635';
-  if(sl.indexOf('versandt')>=0) return '#22d3ee';
-  if(sl.indexOf('pr')>=0) return '#d29922';
-  if(sl.indexOf('wartet')>=0) return '#f85149';
+function sColor(s){
+  var l=(s||'').toLowerCase();
+  if(l.indexOf('erteilt')>=0) return '#a3e635';
+  if(l.indexOf('versandt')>=0||l.indexOf('verschickt')>=0) return '#22d3ee';
+  if(l.indexOf('pr')>=0&&(l.indexOf('fung')>=0||l.indexOf('fung')>=0)) return '#d29922';
+  if(l.indexOf('wartet')>=0) return '#a78bfa';
   return '#8b949e';
 }
 
-/* ---- TABLE ---- */
-function buildTable(rows) {
-  var wrap = document.getElementById('tableWrap');
-  if (!rows.length) { wrap.innerHTML='<div class="loading">Keine Daten vorhanden</div>'; return; }
-  var html = '<table><thead><tr><th></th><th>Projekt-ID</th><th>Kunde</th><th>Gewerk</th><th>Status</th><th>Umsatz</th><th>Datum</th></tr></thead><tbody>';
+/* TABLE */
+function buildTable(rows){
+  var wrap=document.getElementById('tableWrap');
+  if(!rows.length){wrap.innerHTML='<div class="loading">Keine Daten</div>';return;}
+  var h='<table><thead><tr><th></th><th>Projekt-ID</th><th>Kunde</th><th>Gewerk</th><th>Status</th><th>Umsatz</th><th>Datum</th></tr></thead><tbody>';
   rows.forEach(function(r,i){
-    var f=field(r);
-    var pid=f('Projekt-ID','ProjektID','ID')||'-';
+    var f=F(r);
+    var pid=f('Projekt-ID','ProjektID')||'-';
     var name=f('Kunden-Name','KundenName','Kunde','Name')||'-';
     var gw=f('Gewerk/Projektart','Gewerk','Projektart')||'-';
     var st=f('Status')||'Neu eingegangen';
-    var um=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    var um=money(f('Umsatz-Potenzial','Umsatz','UmsatzPotenzial','Umsatzpotenzial'));
     var dt=f('Erstkontakt-Datum','Datum','Erstkontakt')||'-';
-    var em=f('E-Mail-Adresse','E-Mail','Email')||'-';
-    var pd=f('Projektdetails','Projekt-Details','Details')||'-';
-    var ver=f('Angebot-Version','Version')||'-';
-    var sc=statusClass(st);
-    html+='<tr onclick="toggleRow('+i+')">'+
-      '<td><span class="exp-icon" id="icon-'+i+'">&#9654;</span></td>'+
-      '<td><span class="project-id">'+pid+'</span></td>'+
+    var em=f('E-Mail-Adresse','EMail','Email','E-Mail')||'-';
+    var pd=f('Projektdetails','Projekt-Details','Details','Projektbeschreibung')||'-';
+    var ver=f('Angebot-Version','AngebotVersion','Version')||'-';
+    var sc=sClass(st);
+    h+='<tr onclick="xrow('+i+')">'+
+      '<td><span class="xicon" id="xi'+i+'">&#9654;</span></td>'+
+      '<td><span class="pid">'+pid+'</span></td>'+
       '<td><b>'+name+'</b></td>'+
-      '<td><span class="gewerk-badge" title="'+gw+'">'+gw+'</span></td>'+
-      '<td><span class="status-pill '+sc+'"><span class="sdot"></span>'+st+'</span></td>'+
-      '<td><span class="umsatz">'+(um?fmtK(um)+''  :'-')+'</span></td>'+
-      '<td style="color:#8b949e;font-size:12px">'+dt+'</td>'+
+      '<td><span class="gbadge" title="'+gw+'">'+gw+'</span></td>'+
+      '<td><span class="spill '+sc+'"><span class="sdot2"></span>'+st+'</span></td>'+
+      '<td><span class="umval">'+(um?fmt(um):'-')+'</span></td>'+
+      '<td style="color:var(--muted);font-size:12px">'+dt+'</td>'+
       '</tr>'+
-      '<tr class="expand-row" id="expand-'+i+'"><td colspan="7">'+
-      '<div class="exp-content">'+
-      '<div class="detail-grid">'+
-      '<div class="detail-item"><label>Projekt-ID</label><span>'+pid+'</span></div>'+
-      '<div class="detail-item"><label>Kunde</label><span>'+name+'</span></div>'+
-      '<div class="detail-item"><label>E-Mail</label><span>'+em+'</span></div>'+
-      '<div class="detail-item"><label>Gewerk</label><span>'+gw+'</span></div>'+
-      '<div class="detail-item"><label>Status</label><span>'+st+'</span></div>'+
-      '<div class="detail-item"><label>Angebot-Version</label><span>'+ver+'</span></div>'+
-      '<div class="detail-item"><label>Umsatz-Potenzial</label><span>'+(um?fmtK(um):'-')+'</span></div>'+
-      '<div class="detail-item"><label>Erstkontakt</label><span>'+dt+'</span></div>'+
+      '<tr class="xrow" id="xr'+i+'"><td colspan="7">'+
+      '<div class="xcontent">'+
+      '<div class="xgrid">'+
+      '<div class="xi"><label>Projekt-ID</label><span>'+pid+'</span></div>'+
+      '<div class="xi"><label>Kunde</label><span>'+name+'</span></div>'+
+      '<div class="xi"><label>E-Mail</label><span>'+em+'</span></div>'+
+      '<div class="xi"><label>Gewerk</label><span>'+gw+'</span></div>'+
+      '<div class="xi"><label>Status</label><span>'+st+'</span></div>'+
+      '<div class="xi"><label>Angebot-Version</label><span>'+ver+'</span></div>'+
+      '<div class="xi"><label>Umsatz</label><span>'+(um?fmt(um):'-')+'</span></div>'+
+      '<div class="xi"><label>Erstkontakt</label><span>'+dt+'</span></div>'+
       '</div>'+
-      '<div class="pd-label">Projektdetails</div>'+
-      '<div class="pd-box">'+pd+'</div>'+
+      '<div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Projektdetails</div>'+
+      '<div class="pdbox">'+pd+'</div>'+
       '</div></td></tr>';
   });
-  html+='</tbody></table>';
-  wrap.innerHTML=html;
-  document.getElementById('tableCount').textContent=rows.length+' Projekte';
+  h+='</tbody></table>';
+  wrap.innerHTML=h;
+  document.getElementById('tcount').textContent=rows.length+' Projekte';
 }
-
-function toggleRow(i){
-  var row=document.getElementById('expand-'+i);
-  var icon=document.getElementById('icon-'+i);
+function xrow(i){
+  var row=document.getElementById('xr'+i);
+  var ic=document.getElementById('xi'+i);
   var open=row.style.display==='table-row';
   row.style.display=open?'none':'table-row';
-  icon.innerHTML=open?'&#9654;':'&#9660;';
-  icon.style.color=open?'':'#a3e635';
+  ic.innerHTML=open?'&#9654;':'&#9660;';
+  ic.style.color=open?'':'#a3e635';
 }
 
-/* ---- STATUS BAR CHART ---- */
-function buildStatusBars(rows) {
+/* DONUT */
+function buildDonut(rows){
   var counts={};
   rows.forEach(function(r){
-    var f=field(r);
-    var s=f('Status')||'Neu eingegangen';
-    counts[s]=(counts[s]||0)+1;
+    var st=F(r)('Status')||'Neu eingegangen';
+    counts[st]=(counts[st]||0)+1;
   });
   var total=rows.length;
-  var entries=Object.keys(counts).map(function(k){return[k,counts[k]];});
-  entries.sort(function(a,b){return b[1]-a[1];});
-  var html='';
+  document.getElementById('donut-num').textContent=total;
+  var entries=Object.keys(counts).map(function(k){return[k,counts[k]];}).sort(function(a,b){return b[1]-a[1];});
+
+  var cx=90,cy=90,R=78,ri=50;
+  var svg='';
+
+  if(entries.length===1){
+    /* single status: full ring */
+    var col=sColor(entries[0][0]);
+    svg='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="'+col+'"/>'+
+        '<circle cx="'+cx+'" cy="'+cy+'" r="'+ri+'" fill="#070b0f"/>';
+  } else {
+    var ang=-Math.PI/2;
+    entries.forEach(function(e){
+      var frac=e[1]/total;
+      var da=frac*2*Math.PI;
+      var ea=ang+da;
+      var x1=cx+R*Math.cos(ang), y1=cy+R*Math.sin(ang);
+      var x2=cx+R*Math.cos(ea),  y2=cy+R*Math.sin(ea);
+      var x3=cx+ri*Math.cos(ea), y3=cy+ri*Math.sin(ea);
+      var x4=cx+ri*Math.cos(ang),y4=cy+ri*Math.sin(ang);
+      var lg=da>Math.PI?1:0;
+      var col=sColor(e[0]);
+      svg+='<path d="M'+x1+' '+y1+' A'+R+' '+R+' 0 '+lg+' 1 '+x2+' '+y2+
+           ' L'+x3+' '+y3+' A'+ri+' '+ri+' 0 '+lg+' 0 '+x4+' '+y4+' Z"'+
+           ' fill="'+col+'" stroke="#070b0f" stroke-width="3"/>';
+      ang=ea;
+    });
+  }
+  document.getElementById('donut').innerHTML=svg;
+
+  var legHtml='';
   entries.forEach(function(e){
-    var st=e[0], cnt=e[1];
-    var pct=Math.round(cnt/total*100);
-    var col=sColor(st);
-    html+='<div class="status-bar-row">'+
-      '<div class="status-bar-header">'+
-      '<span class="status-bar-name" style="display:flex;align-items:center;gap:6px">'+
-      '<span style="width:8px;height:8px;border-radius:2px;background:'+col+';display:inline-block"></span>'+st+'</span>'+
-      '<span class="status-bar-count">'+cnt+'</span>'+
-      '</div>'+
-      '<div class="status-track"><div class="status-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
-      '<div class="status-pct">'+pct+'%</div>'+
-      '</div>';
-  });
-  document.getElementById('statusBars').innerHTML=html||'<div class="loading" style="padding:20px">Keine Daten</div>';
-
-  /* umsatz mini by status */
-  var umsatzByStatus={};
-  rows.forEach(function(r){
-    var f=field(r);
-    var s=f('Status')||'Neu eingegangen';
-    var u=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
-    umsatzByStatus[s]=(umsatzByStatus[s]||0)+u;
-  });
-  var uEntries=Object.keys(umsatzByStatus).map(function(k){return[k,umsatzByStatus[k]];});
-  uEntries.sort(function(a,b){return b[1]-a[1];});
-  var maxU=uEntries.length?uEntries[0][1]:1;
-  var uHtml='';
-  uEntries.forEach(function(e){
-    if(!e[1]) return;
     var col=sColor(e[0]);
-    var pct=Math.round(e[1]/maxU*100);
-    uHtml+='<div style="margin-bottom:8px">'+
-      '<div style="display:flex;justify-content:space-between;margin-bottom:3px">'+
-      '<span style="font-size:11px;color:var(--muted)">'+e[0]+'</span>'+
-      '<span style="font-size:11px;font-weight:600;color:var(--text)">'+fmtK(e[1])+'</span>'+
-      '</div>'+
-      '<div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden">'+
-      '<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px"></div>'+
-      '</div></div>';
+    var pct=Math.round(e[1]/total*100);
+    legHtml+='<div class="leg-row">'+
+      '<div class="leg-left"><div class="leg-dot" style="background:'+col+'"></div><span class="leg-name">'+e[0]+'</span></div>'+
+      '<span class="leg-cnt">'+e[1]+' <span style="font-weight:400;color:var(--muted);font-size:11px">('+pct+'%)</span></span></div>';
   });
-  document.getElementById('umsatzMini').innerHTML=uHtml||'<span style="font-size:11px;color:var(--muted)">-</span>';
+  document.getElementById('donut-legend').innerHTML=legHtml;
 }
 
-/* ---- STAT CARDS ÜBERSICHT ---- */
-function buildStats(rows) {
-  var total=rows.length, erteilt=0, versandt=0, totalU=0;
+/* STAT CARDS */
+function buildCards(rows){
+  var total=rows.length, offen=0, versandt=0, erteilt=0, erteiltU=0, totalU=0;
   rows.forEach(function(r){
-    var f=field(r);
+    var f=F(r);
     var sl=(f('Status')||'').toLowerCase();
-    if(sl.indexOf('erteilt')>=0) erteilt++;
-    if(sl.indexOf('versandt')>=0) versandt++;
-    totalU+=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    var u=money(f('Umsatz-Potenzial','Umsatz','UmsatzPotenzial','Umsatzpotenzial'));
+    totalU+=u;
+    if(sl.indexOf('erteilt')>=0){erteilt++;erteiltU+=u;}
+    else if(sl.indexOf('versandt')>=0||sl.indexOf('verschickt')>=0){versandt++;}
+    else{offen++;}
   });
-  document.getElementById('s-total').textContent=total;
-  document.getElementById('s-versandt').textContent=versandt;
-  document.getElementById('s-erteilt').textContent=erteilt;
-  document.getElementById('s-umsatz').innerHTML=fmtK(totalU);
-  buildROI(rows, erteilt, versandt, totalU);
+  document.getElementById('u-total').textContent=total;
+  document.getElementById('u-offen').textContent=offen;
+  document.getElementById('u-versandt').textContent=versandt;
+  document.getElementById('u-erteilt').textContent=erteilt;
+  document.getElementById('u-erteilt-sum').innerHTML=fmt(erteiltU);
+  document.getElementById('pipelineVal').innerHTML=fmt(totalU);
+  document.getElementById('pipelineNote').textContent=total+' Projekte in der Pipeline';
+  buildROI(rows, total, offen, versandt, erteilt, erteiltU, totalU);
 }
 
-/* ---- ROI PAGE ---- */
-function buildROI(rows, erteilt, versandt, totalU) {
-  /* cards */
-  var withU=rows.filter(function(r){return parseMoney(field(r)('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'))>0;});
-  var avg=withU.length?totalU/withU.length:0;
-  var confirmedU=0;
-  rows.forEach(function(r){
-    var f=field(r);
-    if((f('Status')||'').toLowerCase().indexOf('erteilt')>=0)
-      confirmedU+=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
-  });
-  var totalLeads=rows.length;
-  /* offersGenerated = rows with Angebot-Version >= 1 */
+/* ROI */
+function buildROI(rows, total, offen, versandt, erteilt, erteiltU, totalU){
+  /* offers dispatched = version >= 1 */
   var offersGen=rows.filter(function(r){
-    var v=parseInt(field(r)('Angebot-Version','Version')||'0');
-    return v>=1;
+    return parseInt(F(r)('Angebot-Version','AngebotVersion','Version')||'0')>=1;
   }).length;
-  /* time savings: 30min qual + 2h offer per generated offer */
-  var qualHours=totalLeads*0.5;
-  var offerHours=offersGen*2;
-  var totalHours=qualHours+offerHours;
-  var timeMoney=totalHours*50;
+  /* fallback: versandt + erteilt */
+  if(!offersGen) offersGen=versandt+erteilt;
 
-  document.getElementById('r-offers').textContent=offersGen||versandt;
-  document.getElementById('r-avg').innerHTML=fmtK(avg);
-  document.getElementById('r-confirmed').innerHTML=fmtK(confirmedU);
-  document.getElementById('r-time').textContent=Math.round(totalHours)+'h';
-  document.getElementById('r-timeval').innerHTML=fmtK(timeMoney);
+  /* hours: 30min qual per lead + 2h per offer */
+  var hQual=total*0.5;
+  var hOff=offersGen*2;
+  var hTotal=hQual+hOff;
+  var hVal=hTotal*50;
 
-  buildCompareChart(totalLeads, offersGen, totalHours, timeMoney);
-  buildCostTable(timeMoney);
-  buildKIMetrics(totalLeads, offersGen, totalHours, versandt);
-  buildTimeChart(qualHours, offerHours);
-  buildBarChart(rows);
+  document.getElementById('r-hours').textContent=Math.round(hTotal)+'h';
+  document.getElementById('r-offers').textContent=offersGen;
+  document.getElementById('r-umsatz').innerHTML=fmt(erteiltU||totalU);
+  document.getElementById('r-savedval').innerHTML=fmt(hVal);
+  document.getElementById('c-hours-before').textContent=Math.round(hTotal)+' Stunden Arbeit pro Monat';
+  document.getElementById('r-roi-headline').innerHTML='Sie sparen ~'+fmt(hVal)+' Arbeitszeit pro Monat';
+
+  buildGewerkBars(rows);
 }
 
-/* ---- COMPARISON CHART (Ohne vs. Mit) ---- */
-function buildCompareChart(leads, offers, hours, savings) {
-  /* WITHOUT: assume 3h per lead manual work + 2h per offer */
-  var manualHours = leads*3 + offers*2;
-  var manualCost = manualHours*50;
-  var autoCost = 40.5; /* fixed monthly cost */
-  var autoHours = 0; /* fully automated */
-
-  /* Bars scaled to max */
-  var maxH = Math.max(manualHours, 1);
-  var maxC = Math.max(manualCost, 1);
-
-  var hPct = Math.min(Math.round(manualHours/maxH*100),100);
-  var cPct = Math.min(Math.round(autoCost/manualCost*100),100);
-
-  var barH = 160;
-
-  document.getElementById('compareGrid').innerHTML =
-    '<div class="compare-col">'+
-      '<div class="compare-bar-wrap">'+
-        '<div class="compare-bar" style="height:'+(hPct/100*barH)+'px;background:linear-gradient(0deg,#f85149,#ff6b6b);color:#fff;font-size:12px">'+Math.round(manualHours)+'h</div>'+
-        '<div style="height:'+(barH - hPct/100*barH)+'px"></div>'+
-      '</div>'+
-      '<div class="compare-label">Ohne<br>Automatisierung</div>'+
-      '<div class="compare-value" style="color:var(--red)">'+Math.round(manualHours)+'h / Monat</div>'+
-    '</div>'+
-    '<div style="display:flex;align-items:center;padding-bottom:40px"><span style="font-size:10px;color:var(--muted);writing-mode:vertical-lr;transform:rotate(180deg)">Arbeitsstunden</span></div>'+
-    '<div class="compare-col">'+
-      '<div class="compare-bar-wrap">'+
-        '<div style="height:'+(barH - 8)+'px"></div>'+
-        '<div class="compare-bar" style="height:8px;background:linear-gradient(0deg,var(--lime),#86efac);color:#0a0a0a;font-size:11px;padding:0 4px">~0h</div>'+
-      '</div>'+
-      '<div class="compare-label">Mit Core<br>Automation</div>'+
-      '<div class="compare-value" style="color:var(--lime)">~0h / Monat</div>'+
-    '</div>';
-
-  document.getElementById('compareStats').innerHTML =
-    '<div style="background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.2);border-radius:8px;padding:12px;text-align:center">'+
-      '<div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Gesparte Stunden</div>'+
-      '<div style="font-size:20px;font-weight:700;color:var(--lime)">'+Math.round(manualHours)+'h</div>'+
-    '</div>'+
-    '<div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:8px;padding:12px;text-align:center">'+
-      '<div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Gesparter Wert</div>'+
-      '<div style="font-size:20px;font-weight:700;color:var(--cyan)">'+fmtK(manualCost-40.5)+'</div>'+
-    '</div>';
-}
-
-/* ---- COST TABLE ---- */
-function buildCostTable(timeSavings) {
-  var items = [
-    ['n8n Automation (Cloud)', 20.00, 'out'],
-    ['Claude API (KI-Angebote)', 8.50, 'out'],
-    ['Google Workspace', 12.00, 'out'],
-    ['Streamlit Dashboard', 0.00, 'neutral'],
-    ['', null, 'divider'],
-    ['Gesamt Kosten', 40.50, 'out'],
-    ['Gesparte Arbeitszeit', timeSavings, 'in'],
-    ['Netto-Vorteil', timeSavings - 40.50, 'net'],
-  ];
-  var html='';
-  items.forEach(function(item){
-    if(item[1]===null) return;
-    var cls = item[2]==='in'?'plus':item[2]==='out'?'minus':item[2]==='net'?'plus neutral':item[2]==='neutral'?'neutral':'neutral';
-    var sign = item[2]==='in'||item[2]==='net'?'+ ':item[2]==='out'?'- ':'';
-    html+='<tr><td>'+item[0]+'</td><td class="'+cls+'">'+sign+item[1].toFixed(2).replace('.',',')+' &#8364;</td></tr>';
-  });
-  document.getElementById('costBody').innerHTML=html;
-}
-
-/* ---- KI METRIKEN ---- */
-function buildKIMetrics(leads, offers, hours, versandt) {
-  document.getElementById('kiMetrics').innerHTML =
-    '<div class="kpi-item"><div class="kpi-val" style="color:var(--cyan)">'+leads+'</div><div class="kpi-lbl">Leads qualifiziert</div></div>'+
-    '<div class="kpi-item"><div class="kpi-val" style="color:var(--lime)">'+offers+'</div><div class="kpi-lbl">Angebote generiert</div></div>'+
-    '<div class="kpi-item"><div class="kpi-val" style="color:var(--purple)">'+Math.round(hours)+'h</div><div class="kpi-lbl">Stunden gespart</div></div>';
-}
-
-/* ---- TIME CHART ---- */
-function buildTimeChart(qualH, offerH) {
-  var total = qualH + offerH || 1;
-  var colors = ['bf-cyan','bf-lime'];
-  var items = [
-    ['Lead-Qualifizierung (30 min/Lead)', qualH, 'bf-cyan'],
-    ['Angebots-Erstellung (2h/Angebot)', offerH, 'bf-lime'],
-  ];
-  var html='';
-  items.forEach(function(item){
-    var pct=Math.round(item[1]/total*100);
-    html+='<div class="bar-row" style="margin-bottom:8px">'+
-      '<div class="bar-label" style="font-size:10px;width:160px">'+item[0]+'</div>'+
-      '<div class="bar-track" style="height:16px"><div class="bar-fill '+item[2]+'" style="width:'+(pct||5)+'%">'+Math.round(item[1])+'h</div></div>'+
-      '</div>';
-  });
-  document.getElementById('timeChart').innerHTML=html;
-}
-
-/* ---- UMSATZ NACH GEWERK ---- */
-function buildBarChart(rows) {
+/* GEWERK BARS */
+function buildGewerkBars(rows){
   var byG={};
   rows.forEach(function(r){
-    var f=field(r);
-    var g=(f('Gewerk/Projektart','Gewerk','Projektart')||'Sonstige').substring(0,22);
-    var u=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    var f=F(r);
+    var g=(f('Gewerk/Projektart','Gewerk','Projektart')||'Sonstige').substring(0,24);
+    var u=money(f('Umsatz-Potenzial','Umsatz','UmsatzPotenzial','Umsatzpotenzial'));
     byG[g]=(byG[g]||0)+u;
   });
-  var entries=Object.keys(byG).map(function(k){return[k,byG[k]];});
-  entries.sort(function(a,b){return b[1]-a[1];});
-  entries=entries.slice(0,7);
-  var mx=entries.length?entries[0][1]:1;
-  var cls=['bf-lime','bf-cyan','bf-orange','bf-green','bf-purple','bf-cyan','bf-lime'];
-  var html='';
-  entries.forEach(function(e,i){
-    var pct=Math.round(e[1]/mx*100);
-    html+='<div class="bar-row">'+
-      '<div class="bar-label">'+e[0]+'</div>'+
-      '<div class="bar-track"><div class="bar-fill '+cls[i]+'" style="width:'+Math.max(pct,5)+'%">'+fmtK(e[1])+'</div></div>'+
-      '</div>';
+  var ent=Object.keys(byG).map(function(k){return[k,byG[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,7);
+  var mx=ent.length?ent[0][1]:1;
+  var cls=['lime','cyan','orange','green','purple','cyan','lime'];
+  var h='';
+  ent.forEach(function(e,i){
+    var pct=Math.max(Math.round(e[1]/mx*100),4);
+    h+='<div class="br"><div class="bl">'+e[0]+'</div>'+
+       '<div class="bt"><div class="bf '+cls[i]+'" style="width:'+pct+'%">'+fmt(e[1])+'</div></div></div>';
   });
-  document.getElementById('barChart').innerHTML=html||'<div class="loading">Keine Daten</div>';
+  document.getElementById('gewerk-bars').innerHTML=h||'<div class="loading">Keine Daten</div>';
 }
 
-/* ---- DEMO DATA ---- */
-function demoData() {
-  return [
-    {'Projekt-ID':'FT-1001','Kunden-Name':'Müller GmbH','E-Mail-Adresse':'info@mueller.de','Gewerk/Projektart':'PV-Anlage 12 kW + Speicher','Status':'Auftrag erteilt','Umsatz-Potenzial':'28500','Erstkontakt-Datum':'2026-05-10','Projektdetails':'PV-Anlage 12 kWp auf Satteldach Süd-Ausrichtung 30°. Suntech 400W Module (30 Stück). SMA Wechselrichter 10 kW. BYD Battery-Box 10 kWh Speicher.','Angebot-Version':'2'},
-    {'Projekt-ID':'FT-1002','Kunden-Name':'Schneider KG','E-Mail-Adresse':'s.schneider@kg.de','Gewerk/Projektart':'Elektroinstallation','Status':'Angebot versandt','Umsatz-Potenzial':'15200','Erstkontakt-Datum':'2026-05-14','Projektdetails':'Komplette Neuinstallation Elektro in EFH 180m². UV Keller, UV OG, 3 Stromkreise Küche, 6 Außensteckdosen, 2x Wallbox-Vorbereitung 11kW.','Angebot-Version':'1'},
-    {'Projekt-ID':'FT-1003','Kunden-Name':'Weber & Partner','E-Mail-Adresse':'weber@partner.com','Gewerk/Projektart':'Wärmepumpe Luft/Wasser','Status':'In Prüfung','Umsatz-Potenzial':'32000','Erstkontakt-Datum':'2026-05-18','Projektdetails':'Austausch Gasheizung gegen Luft-Wasser-WP Vaillant aroTherm plus 12 kW. Hydraulische Einbindung bestehende FBH. Förderantrag BEG gestellt.','Angebot-Version':'1'},
-    {'Projekt-ID':'FT-1004','Kunden-Name':'Fischer Immobilien','E-Mail-Adresse':'info@fischer-immo.de','Gewerk/Projektart':'PV-Anlage 20 kW Gewerbe','Status':'Wartet auf Infos','Umsatz-Potenzial':'45000','Erstkontakt-Datum':'2026-05-20','Projektdetails':'Gebäude 800m² Dachfläche. PV 20 kWp. Victron Energy Wechselrichter. 30 kWh Batteriespeicher.','Angebot-Version':'0'},
-    {'Projekt-ID':'FT-1005','Kunden-Name':'Thomas Bauer','E-Mail-Adresse':'t.bauer@web.de','Gewerk/Projektart':'Wallbox + Smart Home','Status':'Neu eingegangen','Umsatz-Potenzial':'3800','Erstkontakt-Datum':'2026-05-28','Projektdetails':'2x Wallbox 11kW ABB Terra AC. Smart-Home KNX. Lastmanagement. Zuleitung 16mm², ca. 25m.','Angebot-Version':'0'},
-    {'Projekt-ID':'FT-1006','Kunden-Name':'Reinhardt Bau','E-Mail-Adresse':'rein@bau.de','Gewerk/Projektart':'Elektro Neubau MFH','Status':'Auftrag erteilt','Umsatz-Potenzial':'68000','Erstkontakt-Datum':'2026-04-15','Projektdetails':'Elektroinstallation Neubau MFH 8 WE. Komplette NSHV, 8 Wohnungsverteiler, Tiefgarage 4 Stellplätze, Wallbox-Vorbereitung, Klingel-Video.','Angebot-Version':'3'},
+/* DEMO */
+function demo(){
+  return[
+    {'Projekt-ID':'FT-1001','Kunden-Name':'Müller GmbH','E-Mail-Adresse':'info@mueller.de','Gewerk/Projektart':'PV-Anlage 12 kW','Status':'Auftrag erteilt','Umsatz-Potenzial':'28500','Erstkontakt-Datum':'2026-05-10','Projektdetails':'PV-Anlage 12 kWp Satteldach Süd 30°. 30× Suntech 400W. SMA Wechselrichter 10 kW. BYD 10 kWh Speicher. Netzanmeldung inklusive.','Angebot-Version':'2'},
+    {'Projekt-ID':'FT-1002','Kunden-Name':'Schneider KG','E-Mail-Adresse':'s.schneider@kg.de','Gewerk/Projektart':'Elektroinstallation','Status':'Angebot versandt','Umsatz-Potenzial':'15200','Erstkontakt-Datum':'2026-05-14','Projektdetails':'Neuinstallation EFH 180m². UV Keller + OG, 3 Küchenstromkreise, 6 Außensteckdosen, 2× Wallbox-Vorbereitung 11kW, FI-Schutzschalter.','Angebot-Version':'1'},
+    {'Projekt-ID':'FT-1003','Kunden-Name':'Weber & Partner','E-Mail-Adresse':'weber@partner.com','Gewerk/Projektart':'Wärmepumpe','Status':'In Prüfung','Umsatz-Potenzial':'32000','Erstkontakt-Datum':'2026-05-18','Projektdetails':'Austausch Gasheizung → Vaillant aroTherm 12 kW. Hydraulik in bestehende FBH. 200L Warmwasser. BEG-Förderantrag gestellt.','Angebot-Version':'1'},
+    {'Projekt-ID':'FT-1004','Kunden-Name':'Fischer Immobilien','E-Mail-Adresse':'info@fischer-immo.de','Gewerk/Projektart':'PV-Anlage 20 kW Gewerbe','Status':'Wartet auf Infos','Umsatz-Potenzial':'45000','Erstkontakt-Datum':'2026-05-20','Projektdetails':'Gewerbedach 800m². PV 20 kWp Trapezblech. Victron Wechselrichter. 30 kWh Batteriespeicher, Lastspitzenreduktion 70%.','Angebot-Version':'0'},
+    {'Projekt-ID':'FT-1005','Kunden-Name':'Thomas Bauer','E-Mail-Adresse':'t.bauer@web.de','Gewerk/Projektart':'Wallbox + Smart Home','Status':'Neu eingegangen','Umsatz-Potenzial':'3800','Erstkontakt-Datum':'2026-05-28','Projektdetails':'2× Wallbox 11kW ABB Terra. KNX Smart Home. Lastmanagement. Zuleitung 16mm² ca. 25m neu.','Angebot-Version':'0'},
+    {'Projekt-ID':'FT-1006','Kunden-Name':'Reinhardt Bau','E-Mail-Adresse':'rein@bau.de','Gewerk/Projektart':'Elektro Neubau MFH','Status':'Auftrag erteilt','Umsatz-Potenzial':'68000','Erstkontakt-Datum':'2026-04-15','Projektdetails':'Elektro Neubau MFH 8 Wohneinheiten. NSHV, 8 Verteiler, 4 Stellplätze Wallbox-Vorbereitung, Tiefgarage, Klingel-Video, SAT-Gemeinschaft.','Angebot-Version':'3'},
   ];
 }
 
-/* ---- LOAD ---- */
-function renderAll(rows) {
-  buildStats(rows);
+/* RENDER */
+function render(rows){
+  buildCards(rows);
   buildTable(rows);
-  buildStatusBars(rows);
+  buildDonut(rows);
 }
 
-function loadData() {
+function load(){
   fetch(CSV_URL)
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(r){if(!r.ok)throw new Error(r.status);return r.text();})
     .then(function(t){
       var rows=parseCSV(t);
-      if(!rows.length) throw new Error('empty');
-      renderAll(rows);
-      document.getElementById('lastUpdate').textContent='Aktualisiert: '+new Date().toLocaleTimeString('de-DE');
-      document.getElementById('liveDot').style.background='#3fb950';
-      document.getElementById('liveDot').style.boxShadow='0 0 6px #3fb950';
+      if(!rows.length)throw new Error('empty');
+      render(rows);
+      var d=document.getElementById('liveDot');
+      d.style.background='#3fb950'; d.style.boxShadow='0 0 6px #3fb950';
+      document.getElementById('liveStatus').textContent='Live · '+new Date().toLocaleTimeString('de-DE');
     })
     .catch(function(e){
-      console.warn('Fetch fehlgeschlagen, Demo-Daten:', e);
-      renderAll(demoData());
-      document.getElementById('lastUpdate').textContent='Demo-Daten';
-      document.getElementById('liveDot').style.background='#d29922';
-      document.getElementById('liveDot').style.boxShadow='0 0 6px #d29922';
+      console.warn('Sheet fetch failed:', e);
+      render(demo());
+      var d=document.getElementById('liveDot');
+      d.style.background='#d29922'; d.style.boxShadow='0 0 6px #d29922';
+      document.getElementById('liveStatus').textContent='Demo-Modus';
     });
 }
 
-loadData();
-setInterval(loadData, 5*60*1000);
+load();
+setInterval(load, 5*60*1000);
 </script>
 </body>
 </html>
