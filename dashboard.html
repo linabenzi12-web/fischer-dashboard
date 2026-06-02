@@ -17,6 +17,7 @@
     --red: #f85149;
     --orange: #d29922;
     --green: #3fb950;
+    --purple: #a78bfa;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
@@ -24,270 +25,175 @@
     color: var(--text);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     font-size: 14px;
-    min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* TOP NAV */
+  /* NAV */
   .nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    height: 52px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 52px;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
   }
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.04em;
-  }
-  .nav-brand .bolt { color: var(--lime); font-size: 18px; }
-  .nav-brand span { color: var(--text); }
-  .nav-brand .sub { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
-  .nav-tabs {
-    display: flex;
-    gap: 2px;
-  }
-  .nav-tab {
-    padding: 6px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--muted);
-    transition: all .15s;
-    border: none;
-    background: none;
-  }
-  .nav-tab:hover { color: var(--text); background: var(--surface2); }
-  .nav-tab.active { color: var(--lime); background: rgba(163,230,53,.1); }
-  .status-dot {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
+  .nav-brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; letter-spacing:.04em; }
+  .nav-brand .bolt { color:var(--lime); font-size:18px; }
+  .nav-brand .sub { color:var(--muted); font-weight:400; font-size:12px; margin-left:4px; }
+  .nav-tabs { display:flex; gap:2px; }
+  .nav-tab { padding:6px 18px; border-radius:6px; cursor:pointer; font-size:13px; color:var(--muted); transition:all .15s; border:none; background:none; }
+  .nav-tab:hover { color:var(--text); background:var(--surface2); }
+  .nav-tab.active { color:var(--lime); background:rgba(163,230,53,.1); }
+  .status-ind { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.5} }
-  .last-update { font-size: 11px; color: var(--muted); }
 
   /* PAGES */
-  .page { display: none; padding: 24px; }
-  .page.active { display: block; }
+  .page { display:none; padding:24px; }
+  .page.active { display:block; }
 
   /* STAT CARDS */
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
-  }
+  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
   .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px;
-    position: relative;
-    overflow: hidden;
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:18px 20px; position:relative; overflow:hidden;
   }
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-  .stat-card.lime::before { background: linear-gradient(90deg,var(--lime),transparent); }
-  .stat-card.cyan::before { background: linear-gradient(90deg,var(--cyan),transparent); }
-  .stat-card.orange::before { background: linear-gradient(90deg,var(--orange),transparent); }
-  .stat-card.green::before { background: linear-gradient(90deg,var(--green),transparent); }
-  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-  .stat-value { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-  .stat-card.lime .stat-value { color: var(--lime); }
-  .stat-card.cyan .stat-value { color: var(--cyan); }
-  .stat-card.orange .stat-value { color: var(--orange); }
-  .stat-card.green .stat-value { color: var(--green); }
-  .stat-sub { font-size: 11px; color: var(--muted); }
+  .stat-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+  .stat-card.lime::before { background:linear-gradient(90deg,var(--lime),transparent); }
+  .stat-card.cyan::before { background:linear-gradient(90deg,var(--cyan),transparent); }
+  .stat-card.orange::before { background:linear-gradient(90deg,var(--orange),transparent); }
+  .stat-card.green::before { background:linear-gradient(90deg,var(--green),transparent); }
+  .stat-card.purple::before { background:linear-gradient(90deg,var(--purple),transparent); }
+  .stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+  .stat-value { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
+  .stat-card.lime .stat-value { color:var(--lime); }
+  .stat-card.cyan .stat-value { color:var(--cyan); }
+  .stat-card.orange .stat-value { color:var(--orange); }
+  .stat-card.green .stat-value { color:var(--green); }
+  .stat-card.purple .stat-value { color:var(--purple); }
+  .stat-sub { font-size:11px; color:var(--muted); }
 
-  /* MAIN GRID: table + donut */
-  .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 14px;
-    align-items: start;
-  }
-
-  /* TABLE PANEL */
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
+  /* PANEL */
+  .panel { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   .panel-header {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding:14px 18px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
   }
-  .panel-title { font-size: 13px; font-weight: 600; color: var(--text); }
-  .panel-count { font-size: 11px; color: var(--muted); background: var(--surface2); padding: 2px 8px; border-radius: 10px; }
+  .panel-title { font-size:13px; font-weight:600; color:var(--text); }
+  .panel-badge { font-size:11px; color:var(--muted); background:var(--surface2); padding:2px 8px; border-radius:10px; }
 
-  table { width: 100%; border-collapse: collapse; }
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; }
   thead th {
-    padding: 10px 14px;
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    padding:10px 14px; text-align:left; font-size:11px; font-weight:600;
+    color:var(--muted); text-transform:uppercase; letter-spacing:.05em;
+    background:var(--surface2); border-bottom:1px solid var(--border); white-space:nowrap;
   }
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background .1s;
-  }
-  tbody tr:hover { background: var(--surface2); }
-  tbody tr:last-child { border-bottom: none; }
-  tbody td {
-    padding: 11px 14px;
-    font-size: 13px;
-    vertical-align: middle;
-  }
-  .project-id { font-family: monospace; color: var(--cyan); font-size: 12px; font-weight: 600; }
-  .customer-name { font-weight: 500; }
-  .gewerk-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    background: rgba(34,211,238,.12);
-    color: var(--cyan);
-    white-space: nowrap;
-    max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
+  tbody tr { border-bottom:1px solid var(--border); cursor:pointer; transition:background .1s; }
+  tbody tr:hover { background:var(--surface2); }
+  tbody tr:last-child { border-bottom:none; }
+  tbody td { padding:11px 14px; font-size:13px; vertical-align:middle; }
+  .project-id { font-family:monospace; color:var(--cyan); font-size:12px; font-weight:600; }
+  .gewerk-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; background:rgba(34,211,238,.12); color:var(--cyan); white-space:nowrap; max-width:140px; overflow:hidden; text-overflow:ellipsis; }
+  .status-pill { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
   .s-neu { background:rgba(139,148,158,.15); color:#8b949e; }
   .s-pruefung { background:rgba(210,153,34,.15); color:var(--orange); }
   .s-versandt { background:rgba(34,211,238,.15); color:var(--cyan); }
   .s-erteilt { background:rgba(163,230,53,.15); color:var(--lime); }
   .s-wartet { background:rgba(248,81,73,.15); color:var(--red); }
-  .status-dot-s { width:5px; height:5px; border-radius:50%; background:currentColor; }
-  .umsatz { font-weight: 600; color: var(--lime); font-variant-numeric: tabular-nums; }
-  .expand-icon { color: var(--muted); font-size: 10px; transition: transform .2s; }
-  .expand-row { display: none; background: #0a0f14; }
-  .expand-row td { padding: 0; }
-  .expand-content {
-    padding: 16px 18px 16px 40px;
-    border-top: 1px solid var(--border);
-  }
-  .expand-content .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .detail-item label { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
-  .detail-item span { font-size: 13px; color: var(--text); }
-  .projektdetails-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
-    font-size: 12px;
-    color: #c9d1d9;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .projektdetails-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .sdot { width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .umsatz { font-weight:600; color:var(--lime); }
+  .exp-icon { color:var(--muted); font-size:10px; }
+  .expand-row { display:none; background:#0a0f14; }
+  .expand-row td { padding:0; }
+  .exp-content { padding:16px 18px 16px 40px; border-top:1px solid var(--border); }
+  .detail-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:14px; }
+  .detail-item label { display:block; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:3px; }
+  .detail-item span { font-size:13px; color:var(--text); }
+  .pd-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+  .pd-box { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:12px 14px; font-size:12px; color:#c9d1d9; line-height:1.6; white-space:pre-wrap; word-break:break-word; }
 
-  /* DONUT CHART */
-  .donut-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
-  }
-  .donut-panel .panel-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
-  .donut-wrap { position: relative; display: flex; justify-content: center; margin-bottom: 16px; }
-  .donut-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-    pointer-events: none;
-  }
-  .donut-total { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
-  .donut-label-c { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .legend { display: flex; flex-direction: column; gap: 8px; }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-  }
-  .legend-left { display: flex; align-items: center; gap: 8px; }
-  .legend-color { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-  .legend-name { color: var(--muted); }
-  .legend-count { font-weight: 600; color: var(--text); }
+  /* STATUS BAR CHART (replaces donut) */
+  .status-chart-panel { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; }
+  .status-bar-row { margin-bottom:14px; }
+  .status-bar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+  .status-bar-name { font-size:12px; color:var(--text); }
+  .status-bar-count { font-size:12px; font-weight:600; color:var(--muted); }
+  .status-track { height:12px; background:var(--surface2); border-radius:6px; overflow:hidden; }
+  .status-fill { height:100%; border-radius:6px; transition:width .6s ease; }
+  .status-pct { font-size:10px; color:var(--muted); margin-top:3px; text-align:right; }
 
-  /* ROI PAGE */
-  .roi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
-  .cost-table { width: 100%; }
-  .cost-table th, .cost-table td { padding: 10px 16px; text-align: left; font-size: 13px; }
-  .cost-table thead th { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; background: var(--surface2); }
-  .cost-table tbody tr { border-bottom: 1px solid var(--border); }
-  .cost-table tbody tr:last-child td { font-weight: 700; border-top: 1px solid var(--border); color: var(--lime); }
-  .plus { color: var(--green); }
-  .minus { color: var(--red); }
-  .neutral { color: var(--muted); }
+  /* MAIN GRID */
+  .main-grid { display:grid; grid-template-columns:1fr 280px; gap:14px; align-items:start; }
 
-  .bar-chart { padding: 16px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .bar-label { width: 130px; font-size: 11px; color: var(--muted); flex-shrink: 0; text-align: right; }
-  .bar-track { flex: 1; background: var(--surface2); border-radius: 3px; height: 18px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; transition: width .6s ease; }
-  .bar-fill.lime { background: linear-gradient(90deg,var(--lime),#86efac); color: #0a0a0a; }
-  .bar-fill.cyan { background: linear-gradient(90deg,var(--cyan),#67e8f9); color: #0a0a0a; }
-  .bar-fill.orange { background: linear-gradient(90deg,var(--orange),#fbbf24); color: #0a0a0a; }
+  /* BAR CHART (generic) */
+  .bar-section { padding:16px; }
+  .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .bar-label { width:130px; font-size:11px; color:var(--muted); flex-shrink:0; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bar-track { flex:1; background:var(--surface2); border-radius:3px; height:20px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:600; min-width:30px; transition:width .6s ease; }
+  .bf-lime { background:linear-gradient(90deg,var(--lime),#86efac); color:#0a0a0a; }
+  .bf-cyan { background:linear-gradient(90deg,var(--cyan),#67e8f9); color:#0a0a0a; }
+  .bf-orange { background:linear-gradient(90deg,var(--orange),#fbbf24); color:#0a0a0a; }
+  .bf-green { background:linear-gradient(90deg,var(--green),#4ade80); color:#0a0a0a; }
+  .bf-purple { background:linear-gradient(90deg,var(--purple),#c4b5fd); color:#0a0a0a; }
+
+  /* ROI COMPARISON CHART */
+  .compare-grid { display:flex; gap:24px; padding:20px; align-items:flex-end; justify-content:center; }
+  .compare-col { display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; max-width:120px; }
+  .compare-bar-wrap { width:100%; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .compare-bar { width:70px; border-radius:6px 6px 0 0; display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px; font-weight:700; font-size:13px; transition:height .8s ease; }
+  .compare-label { font-size:11px; color:var(--muted); text-align:center; }
+  .compare-value { font-size:14px; font-weight:700; }
+  .compare-divider { width:2px; background:var(--border); height:100%; align-self:stretch; }
+  .vs-label { font-size:11px; color:var(--muted); writing-mode:vertical-rl; }
+
+  /* SAVINGS GAUGE */
+  .savings-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:16px; }
+  .savings-item { text-align:center; }
+  .savings-circle {
+    width:72px; height:72px; border-radius:50%;
+    border:3px solid var(--border);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    margin:0 auto 8px;
+    background:var(--surface2);
+  }
+  .savings-num { font-size:18px; font-weight:700; line-height:1; }
+  .savings-unit { font-size:9px; color:var(--muted); }
+  .savings-name { font-size:11px; color:var(--muted); }
+
+  /* COST TABLE */
+  .cost-table { width:100%; }
+  .cost-table th, .cost-table td { padding:9px 16px; text-align:left; font-size:13px; }
+  .cost-table thead th { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; background:var(--surface2); border-bottom:1px solid var(--border); }
+  .cost-table tbody tr { border-bottom:1px solid var(--border); }
+  .cost-table tbody tr:last-child td { font-weight:700; border-top:2px solid var(--border); font-size:14px; }
+  .plus { color:var(--green); }
+  .minus { color:var(--red); }
+  .neutral { color:var(--muted); }
+
+  /* KPI METRIC CARDS */
+  .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:16px; }
+  .kpi-item { background:var(--surface2); border-radius:8px; padding:12px; text-align:center; border:1px solid var(--border); }
+  .kpi-val { font-size:22px; font-weight:700; margin-bottom:3px; }
+  .kpi-lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+
+  /* SECTION DIVIDER */
+  .section-gap { margin-bottom:16px; }
 
   /* LOADING */
-  .loading {
-    display: flex; align-items: center; justify-content: center;
-    gap: 8px; padding: 40px; color: var(--muted); font-size: 13px;
-  }
-  .spinner {
-    width: 16px; height: 16px;
-    border: 2px solid var(--border);
-    border-top-color: var(--cyan);
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading { display:flex; align-items:center; justify-content:center; gap:8px; padding:40px; color:var(--muted); font-size:13px; }
+  .spinner { width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--cyan); border-radius:50%; animation:spin .8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  /* TIMELINE */
+  .timeline { padding:16px 20px; }
+  .tl-item { display:flex; gap:14px; margin-bottom:16px; }
+  .tl-item:last-child { margin-bottom:0; }
+  .tl-dot-wrap { display:flex; flex-direction:column; align-items:center; }
+  .tl-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:2px; }
+  .tl-line { flex:1; width:1px; background:var(--border); margin-top:4px; }
+  .tl-content { flex:1; }
+  .tl-title { font-size:13px; font-weight:600; margin-bottom:2px; }
+  .tl-desc { font-size:12px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -299,71 +205,114 @@
     <span class="sub">/ Fischer Technik Operations Hub</span>
   </div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('uebersicht',this)">Ubersicht</button>
+    <button class="nav-tab active" onclick="showPage('uebersicht',this)">&#220;bersicht</button>
     <button class="nav-tab" onclick="showPage('roi',this)">ROI &amp; Performance</button>
   </div>
-  <div class="status-dot">
-    <div class="dot"></div>
+  <div class="status-ind">
+    <div class="dot" id="liveDot"></div>
     <span>Live</span>
-    <span class="last-update" id="lastUpdate">-</span>
+    <span style="font-size:11px;color:var(--muted)" id="lastUpdate">&#8211;</span>
   </div>
 </nav>
 
-<!-- UBERSICHT PAGE -->
+<!-- ÜBERSICHT -->
 <div class="page active" id="page-uebersicht">
-  <div class="stat-grid" id="statGrid">
-    <div class="stat-card lime"><div class="stat-label">Gesamt Leads</div><div class="stat-value" id="s-total">-</div><div class="stat-sub">Alle Projekte</div></div>
-    <div class="stat-card cyan"><div class="stat-label">Angebote versandt</div><div class="stat-value" id="s-versandt">-</div><div class="stat-sub">Warten auf Ruckmeldung</div></div>
-    <div class="stat-card green"><div class="stat-label">Auftrag erteilt</div><div class="stat-value" id="s-erteilt">-</div><div class="stat-sub">Bestatigte Projekte</div></div>
-    <div class="stat-card orange"><div class="stat-label">Umsatz-Pipeline</div><div class="stat-value" id="s-umsatz">-</div><div class="stat-sub">Gesamt-Potenzial</div></div>
+  <div class="stat-grid">
+    <div class="stat-card lime"><div class="stat-label">Gesamt Leads</div><div class="stat-value" id="s-total">&#8211;</div><div class="stat-sub">Alle Projekte</div></div>
+    <div class="stat-card cyan"><div class="stat-label">Angebote versandt</div><div class="stat-value" id="s-versandt">&#8211;</div><div class="stat-sub">Warten auf R&#252;ckmeldung</div></div>
+    <div class="stat-card green"><div class="stat-label">Auftrag erteilt</div><div class="stat-value" id="s-erteilt">&#8211;</div><div class="stat-sub">Best&#228;tigte Projekte</div></div>
+    <div class="stat-card orange"><div class="stat-label">Umsatz-Pipeline</div><div class="stat-value" id="s-umsatz">&#8211;</div><div class="stat-sub">Gesamt-Potenzial</div></div>
   </div>
 
-  <div class="main-grid">
+  <div class="main-grid section-gap">
     <!-- TABLE -->
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title">Leads &amp; Projekte</span>
-        <span class="panel-count" id="tableCount">-</span>
+        <span class="panel-badge" id="tableCount">&#8211;</span>
       </div>
-      <div id="tableWrap">
-        <div class="loading"><div class="spinner"></div> Lade Daten von Google Sheets...</div>
-      </div>
+      <div id="tableWrap"><div class="loading"><div class="spinner"></div> Lade Daten von Google Sheets&#8230;</div></div>
     </div>
 
-    <!-- DONUT -->
-    <div class="donut-panel">
-      <div class="panel-title">Status-Verteilung</div>
-      <div class="donut-wrap">
-        <svg id="donutSvg" width="190" height="190" viewBox="0 0 190 190"></svg>
-        <div class="donut-center">
-          <div class="donut-total" id="donutTotal">-</div>
-          <div class="donut-label-c">Projekte</div>
-        </div>
+    <!-- STATUS BAR CHART -->
+    <div class="status-chart-panel">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:16px">Status-Verteilung</div>
+      <div id="statusBars"><div class="loading"><div class="spinner"></div></div></div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Umsatz-Pipeline</div>
+        <div id="umsatzMini"><div class="loading"><div class="spinner"></div></div></div>
       </div>
-      <div class="legend" id="legend"></div>
     </div>
   </div>
 </div>
 
-<!-- ROI PAGE -->
+<!-- ROI & PERFORMANCE -->
 <div class="page" id="page-roi">
-  <div class="roi-grid">
-    <div class="stat-card lime"><div class="stat-label">Konversionsrate</div><div class="stat-value" id="r-conv">-</div><div class="stat-sub">Lead to Auftrag</div></div>
-    <div class="stat-card cyan"><div class="stat-label">Durchschn. Projektgrosse</div><div class="stat-value" id="r-avg">-</div><div class="stat-sub">Durchschnittlicher Auftragswert</div></div>
-    <div class="stat-card green"><div class="stat-label">Bestatigter Umsatz</div><div class="stat-value" id="r-confirmed">-</div><div class="stat-sub">Erteilte Auftrage</div></div>
+  <div class="stat-grid">
+    <div class="stat-card cyan"><div class="stat-label">Versendete Angebote</div><div class="stat-value" id="r-offers">&#8211;</div><div class="stat-sub">KI-generiert &amp; versandt</div></div>
+    <div class="stat-card orange"><div class="stat-label">&#216; Projektgr&#246;&#223;e</div><div class="stat-value" id="r-avg">&#8211;</div><div class="stat-sub">Durchschn. Auftragswert</div></div>
+    <div class="stat-card green"><div class="stat-label">Best&#228;tigter Umsatz</div><div class="stat-value" id="r-confirmed">&#8211;</div><div class="stat-sub">Erteilte Auftr&#228;ge</div></div>
+    <div class="stat-card purple"><div class="stat-label">Gesparte Zeit (mtl.)</div><div class="stat-value" id="r-time">&#8211;</div><div class="stat-sub">bei 50 &#8364;/h = <span id="r-timeval">&#8211;</span></div></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <!-- COMPARISON CHART -->
     <div class="panel">
-      <div class="panel-header"><span class="panel-title">Kosten-Nutzen-Analyse (mtl.)</span></div>
+      <div class="panel-header"><span class="panel-title">Ohne vs. Mit Core Automation</span><span class="panel-badge">Monatlich</span></div>
+      <div id="compareChart">
+        <div class="compare-grid" id="compareGrid"></div>
+        <div style="padding:0 20px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px" id="compareStats"></div>
+      </div>
+    </div>
+
+    <!-- COST TABLE -->
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">Kosten-Nutzen-Analyse</span><span class="panel-badge">pro Monat</span></div>
       <table class="cost-table">
-        <thead><tr><th>Position</th><th>Betrag</th><th>Typ</th></tr></thead>
+        <thead><tr><th>Position</th><th>Betrag</th></tr></thead>
         <tbody id="costBody"></tbody>
       </table>
     </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <!-- KI METRIKEN -->
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">KI-Automatisierung Metriken</span></div>
+      <div class="kpi-grid" id="kiMetrics"></div>
+      <div style="padding:0 16px 16px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Zeitersparnis-Aufschl&#252;sselung</div>
+        <div id="timeChart"></div>
+      </div>
+    </div>
+
+    <!-- UMSATZ NACH GEWERK -->
     <div class="panel">
       <div class="panel-header"><span class="panel-title">Umsatz nach Gewerk</span></div>
-      <div class="bar-chart" id="barChart"><div class="loading"><div class="spinner"></div> Lade...</div></div>
+      <div class="bar-section" id="barChart"><div class="loading"><div class="spinner"></div> Lade&#8230;</div></div>
+    </div>
+  </div>
+
+  <!-- WORKFLOW ABLAUF -->
+  <div class="panel section-gap">
+    <div class="panel-header"><span class="panel-title">Automatisierter Workflow-Ablauf</span><span class="panel-badge" style="color:var(--lime)">Aktiv</span></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--cyan)"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-title" style="color:var(--cyan)">1. Lead-Eingang via E-Mail</div><div class="tl-desc">Eingehende Kundenanfragen werden automatisch erkannt, klassifiziert und in Google Sheets erfasst &#8212; rund um die Uhr, ohne manuellen Aufwand.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--orange)"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-title" style="color:var(--orange)">2. KI-Qualifizierung &amp; Angebots-Erstellung</div><div class="tl-desc">Claude KI analysiert Projektdetails, Gewerk und Kundenanforderungen. In Sekunden wird ein professionelles, individuelles Angebot generiert.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--lime)"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-title" style="color:var(--lime)">3. Jens pr&#252;ft &amp; best&#228;tigt per Telegram</div><div class="tl-desc">Das Angebot landet direkt bei Jens auf dem Smartphone. Mit einem einfachen &#8222;ok FT-XXXX&#8220; wird es automatisch an den Kunden versandt.</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--green)"></div></div>
+        <div class="tl-content"><div class="tl-title" style="color:var(--green)">4. Vollautomatische Nachverfolgung</div><div class="tl-desc">Status, Version und Angebotsverlauf werden automatisch im CRM aktualisiert. Korrekturen per Telegram-Befehl m&#246;glich &#8212; jederzeit, von &#252;berall.</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -372,15 +321,6 @@
 var SHEET_ID = '1DKINRTQQHVPOEIrCpfyPiarmdxtOowI_GLVATMHz-SM';
 var CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv&gid=0';
 
-var STATUS_COLORS = {
-  'Auftrag erteilt':  '#a3e635',
-  'Angebot versandt': '#22d3ee',
-  'In Pruefung':      '#d29922',
-  'In Prüfung':       '#d29922',
-  'Wartet auf Infos': '#f85149',
-  'Neu eingegangen':  '#8b949e'
-};
-
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.nav-tab').forEach(function(b){ b.classList.remove('active'); });
@@ -388,293 +328,409 @@ function showPage(id, btn) {
   btn.classList.add('active');
 }
 
+/* ---- CSV PARSING ---- */
 function parseCSV(text) {
-  var lines = text.trim().split('\n');
-  var headers = splitCSVLine(lines[0]);
+  var lines = text.replace(/\r/g,'').trim().split('\n');
+  if (lines.length < 2) return [];
+  var headers = splitLine(lines[0]);
   var rows = [];
   for (var i = 1; i < lines.length; i++) {
-    var vals = splitCSVLine(lines[i]);
+    if (!lines[i].trim()) continue;
+    var vals = splitLine(lines[i]);
     var obj = {};
-    for (var j = 0; j < headers.length; j++) {
-      obj[headers[j].trim()] = (vals[j] || '').trim();
-    }
+    headers.forEach(function(h,j){ obj[h.trim()] = (vals[j]||'').trim(); });
     if (obj['Projekt-ID'] || obj['Kunden-Name']) rows.push(obj);
   }
+  console.log('[Dashboard] Headers:', headers);
+  console.log('[Dashboard] Sample row:', rows[0]);
   return rows;
 }
 
-function splitCSVLine(line) {
-  var result = [];
-  var cur = '';
-  var inQ = false;
-  for (var i = 0; i < line.length; i++) {
-    var c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
-    else { cur += c; }
+function splitLine(line) {
+  var res=[], cur='', inQ=false;
+  for (var i=0;i<line.length;i++){
+    var c=line[i];
+    if(c==='"'){inQ=!inQ;}
+    else if(c===','&&!inQ){res.push(cur);cur='';}
+    else{cur+=c;}
   }
-  result.push(cur);
-  return result;
+  res.push(cur);
+  return res;
 }
 
+/* ---- FIELD GETTER (case-insensitive, trims BOM) ---- */
+function field(row) {
+  var cache = {};
+  Object.keys(row).forEach(function(k){
+    cache[k.replace(/^﻿/,'').trim().toLowerCase()] = row[k];
+  });
+  return function(/* ...names */) {
+    for (var i=0;i<arguments.length;i++){
+      var v = cache[arguments[i].toLowerCase()];
+      if (v !== undefined) return (v||'').trim();
+    }
+    return '';
+  };
+}
+
+/* ---- HELPERS ---- */
 function parseMoney(s) {
   if (!s) return 0;
   return parseFloat(s.replace(/[^0-9.,]/g,'').replace(',','.')) || 0;
 }
-
-function fmtEuro(n) {
-  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.',',') + ' Mio EUR';
-  if (n >= 1000) return Math.round(n/1000) + 'k EUR';
-  return n.toFixed(0) + ' EUR';
+function fmtK(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.',',')+'M&#8239;&#8364;';
+  if (n >= 1000) return Math.round(n/1000)+'k&#8239;&#8364;';
+  return Math.round(n)+'&#8239;&#8364;';
 }
-
 function statusClass(s) {
-  if (!s) return 's-neu';
-  var sl = s.toLowerCase();
-  if (sl.indexOf('erteilt') >= 0) return 's-erteilt';
-  if (sl.indexOf('versandt') >= 0) return 's-versandt';
-  if (sl.indexOf('pr') >= 0 && sl.indexOf('fung') >= 0) return 's-pruefung';
-  if (sl.indexOf('wartet') >= 0) return 's-wartet';
+  var sl = (s||'').toLowerCase();
+  if (sl.indexOf('erteilt')>=0) return 's-erteilt';
+  if (sl.indexOf('versandt')>=0) return 's-versandt';
+  if (sl.indexOf('pr')>=0 && (sl.indexOf('fung')>=0||sl.indexOf('fung')>=0)) return 's-pruefung';
+  if (sl.indexOf('wartet')>=0) return 's-wartet';
   return 's-neu';
 }
-
-function statusColor(s) {
-  return STATUS_COLORS[s] || '#8b949e';
+var STATUS_COLORS = {
+  'Auftrag erteilt':'#a3e635','Angebot versandt':'#22d3ee',
+  'In Prüfung':'#d29922','Wartet auf Infos':'#f85149','Neu eingegangen':'#8b949e'
+};
+function sColor(s) {
+  var sl=(s||'').toLowerCase();
+  if(sl.indexOf('erteilt')>=0) return '#a3e635';
+  if(sl.indexOf('versandt')>=0) return '#22d3ee';
+  if(sl.indexOf('pr')>=0) return '#d29922';
+  if(sl.indexOf('wartet')>=0) return '#f85149';
+  return '#8b949e';
 }
 
+/* ---- TABLE ---- */
 function buildTable(rows) {
   var wrap = document.getElementById('tableWrap');
-  if (!rows.length) {
-    wrap.innerHTML = '<div class="loading">Keine Daten vorhanden</div>';
-    return;
-  }
-  var html = '<table><thead><tr><th></th><th>Projekt-ID</th><th>Kunde</th><th>Gewerk</th><th>Status</th><th>Umsatz-Potenzial</th><th>Datum</th></tr></thead><tbody>';
-
-  for (var i = 0; i < rows.length; i++) {
-    var r = rows[i];
-    var sc = statusClass(r['Status']);
-    var pid = r['Projekt-ID'] || '-';
-    var name = r['Kunden-Name'] || '-';
-    var gewerk = r['Gewerk/Projektart'] || r['Gewerk'] || '-';
-    var status = r['Status'] || 'Neu eingegangen';
-    var umsatz = parseMoney(r['Umsatz-Potenzial'] || r['Umsatz'] || '');
-    var datum = r['Erstkontakt-Datum'] || r['Datum'] || '-';
-    var email = r['E-Mail-Adresse'] || r['E-Mail'] || '-';
-    var details = r['Projektdetails'] || r['Projekt-Details'] || '-';
-    var version = r['Angebot-Version'] || r['Version'] || '-';
-    var idx = i;
-
-    html += '<tr onclick="toggleRow(' + idx + ')">' +
-      '<td><span class="expand-icon" id="icon-' + idx + '">&#9654;</span></td>' +
-      '<td><span class="project-id">' + pid + '</span></td>' +
-      '<td><span class="customer-name">' + name + '</span></td>' +
-      '<td><span class="gewerk-badge" title="' + gewerk + '">' + gewerk + '</span></td>' +
-      '<td><span class="status-pill ' + sc + '"><span class="status-dot-s"></span>' + status + '</span></td>' +
-      '<td><span class="umsatz">' + (umsatz ? fmtEuro(umsatz) : '-') + '</span></td>' +
-      '<td style="color:#8b949e;font-size:12px">' + datum + '</td>' +
-      '</tr>' +
-      '<tr class="expand-row" id="expand-' + idx + '">' +
-      '<td colspan="7"><div class="expand-content">' +
-      '<div class="detail-grid">' +
-      '<div class="detail-item"><label>Projekt-ID</label><span>' + pid + '</span></div>' +
-      '<div class="detail-item"><label>Kunde</label><span>' + name + '</span></div>' +
-      '<div class="detail-item"><label>E-Mail</label><span>' + email + '</span></div>' +
-      '<div class="detail-item"><label>Gewerk</label><span>' + gewerk + '</span></div>' +
-      '<div class="detail-item"><label>Status</label><span>' + status + '</span></div>' +
-      '<div class="detail-item"><label>Angebot-Version</label><span>' + version + '</span></div>' +
-      '<div class="detail-item"><label>Umsatz-Potenzial</label><span>' + (umsatz ? fmtEuro(umsatz) : '-') + '</span></div>' +
-      '<div class="detail-item"><label>Erstkontakt</label><span>' + datum + '</span></div>' +
-      '</div>' +
-      '<div class="projektdetails-label">Projektdetails</div>' +
-      '<div class="projektdetails-box">' + details + '</div>' +
+  if (!rows.length) { wrap.innerHTML='<div class="loading">Keine Daten vorhanden</div>'; return; }
+  var html = '<table><thead><tr><th></th><th>Projekt-ID</th><th>Kunde</th><th>Gewerk</th><th>Status</th><th>Umsatz</th><th>Datum</th></tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    var f=field(r);
+    var pid=f('Projekt-ID','ProjektID','ID')||'-';
+    var name=f('Kunden-Name','KundenName','Kunde','Name')||'-';
+    var gw=f('Gewerk/Projektart','Gewerk','Projektart')||'-';
+    var st=f('Status')||'Neu eingegangen';
+    var um=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    var dt=f('Erstkontakt-Datum','Datum','Erstkontakt')||'-';
+    var em=f('E-Mail-Adresse','E-Mail','Email')||'-';
+    var pd=f('Projektdetails','Projekt-Details','Details')||'-';
+    var ver=f('Angebot-Version','Version')||'-';
+    var sc=statusClass(st);
+    html+='<tr onclick="toggleRow('+i+')">'+
+      '<td><span class="exp-icon" id="icon-'+i+'">&#9654;</span></td>'+
+      '<td><span class="project-id">'+pid+'</span></td>'+
+      '<td><b>'+name+'</b></td>'+
+      '<td><span class="gewerk-badge" title="'+gw+'">'+gw+'</span></td>'+
+      '<td><span class="status-pill '+sc+'"><span class="sdot"></span>'+st+'</span></td>'+
+      '<td><span class="umsatz">'+(um?fmtK(um)+''  :'-')+'</span></td>'+
+      '<td style="color:#8b949e;font-size:12px">'+dt+'</td>'+
+      '</tr>'+
+      '<tr class="expand-row" id="expand-'+i+'"><td colspan="7">'+
+      '<div class="exp-content">'+
+      '<div class="detail-grid">'+
+      '<div class="detail-item"><label>Projekt-ID</label><span>'+pid+'</span></div>'+
+      '<div class="detail-item"><label>Kunde</label><span>'+name+'</span></div>'+
+      '<div class="detail-item"><label>E-Mail</label><span>'+em+'</span></div>'+
+      '<div class="detail-item"><label>Gewerk</label><span>'+gw+'</span></div>'+
+      '<div class="detail-item"><label>Status</label><span>'+st+'</span></div>'+
+      '<div class="detail-item"><label>Angebot-Version</label><span>'+ver+'</span></div>'+
+      '<div class="detail-item"><label>Umsatz-Potenzial</label><span>'+(um?fmtK(um):'-')+'</span></div>'+
+      '<div class="detail-item"><label>Erstkontakt</label><span>'+dt+'</span></div>'+
+      '</div>'+
+      '<div class="pd-label">Projektdetails</div>'+
+      '<div class="pd-box">'+pd+'</div>'+
       '</div></td></tr>';
-  }
-
-  html += '</tbody></table>';
-  wrap.innerHTML = html;
-  document.getElementById('tableCount').textContent = rows.length + ' Projekte';
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+  document.getElementById('tableCount').textContent=rows.length+' Projekte';
 }
 
-function toggleRow(i) {
-  var row = document.getElementById('expand-' + i);
-  var icon = document.getElementById('icon-' + i);
-  var isOpen = row.style.display === 'table-row';
-  row.style.display = isOpen ? 'none' : 'table-row';
-  icon.innerHTML = isOpen ? '&#9654;' : '&#9660;';
-  icon.style.color = isOpen ? '' : '#a3e635';
+function toggleRow(i){
+  var row=document.getElementById('expand-'+i);
+  var icon=document.getElementById('icon-'+i);
+  var open=row.style.display==='table-row';
+  row.style.display=open?'none':'table-row';
+  icon.innerHTML=open?'&#9654;':'&#9660;';
+  icon.style.color=open?'':'#a3e635';
 }
 
-function buildDonut(rows) {
-  var counts = {};
-  for (var i = 0; i < rows.length; i++) {
-    var s = rows[i]['Status'] || 'Neu eingegangen';
-    counts[s] = (counts[s] || 0) + 1;
-  }
-
-  var total = rows.length;
-  document.getElementById('donutTotal').textContent = total;
-
-  var entries = Object.keys(counts).map(function(k){ return [k, counts[k]]; });
-  entries.sort(function(a,b){ return b[1]-a[1]; });
-
-  var cx = 95, cy = 95, R = 80, r = 50;
-  var startAngle = -Math.PI / 2;
-  var paths = '';
-
-  for (var j = 0; j < entries.length; j++) {
-    var status = entries[j][0];
-    var count = entries[j][1];
-    var angle = (count / total) * 2 * Math.PI;
-    var endAngle = startAngle + angle;
-    var x1 = cx + R * Math.cos(startAngle);
-    var y1 = cy + R * Math.sin(startAngle);
-    var x2 = cx + R * Math.cos(endAngle);
-    var y2 = cy + R * Math.sin(endAngle);
-    var x3 = cx + r * Math.cos(endAngle);
-    var y3 = cy + r * Math.sin(endAngle);
-    var x4 = cx + r * Math.cos(startAngle);
-    var y4 = cy + r * Math.sin(startAngle);
-    var lg = angle > Math.PI ? 1 : 0;
-    var color = statusColor(status);
-    paths += '<path d="M ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 ' + lg + ' 1 ' + x2 + ' ' + y2 +
-      ' L ' + x3 + ' ' + y3 + ' A ' + r + ' ' + r + ' 0 ' + lg + ' 0 ' + x4 + ' ' + y4 + ' Z"' +
-      ' fill="' + color + '" stroke="#070b0f" stroke-width="2" />';
-    startAngle = endAngle;
-  }
-
-  document.getElementById('donutSvg').innerHTML = paths;
-
-  var legendHtml = '';
-  for (var k = 0; k < entries.length; k++) {
-    var st = entries[k][0];
-    var cnt = entries[k][1];
-    var col = statusColor(st);
-    var pct = Math.round(cnt/total*100);
-    legendHtml += '<div class="legend-item">' +
-      '<div class="legend-left"><div class="legend-color" style="background:' + col + '"></div>' +
-      '<span class="legend-name">' + st + '</span></div>' +
-      '<span class="legend-count">' + cnt + ' <span style="color:#8b949e;font-weight:400">(' + pct + '%)</span></span>' +
+/* ---- STATUS BAR CHART ---- */
+function buildStatusBars(rows) {
+  var counts={};
+  rows.forEach(function(r){
+    var f=field(r);
+    var s=f('Status')||'Neu eingegangen';
+    counts[s]=(counts[s]||0)+1;
+  });
+  var total=rows.length;
+  var entries=Object.keys(counts).map(function(k){return[k,counts[k]];});
+  entries.sort(function(a,b){return b[1]-a[1];});
+  var html='';
+  entries.forEach(function(e){
+    var st=e[0], cnt=e[1];
+    var pct=Math.round(cnt/total*100);
+    var col=sColor(st);
+    html+='<div class="status-bar-row">'+
+      '<div class="status-bar-header">'+
+      '<span class="status-bar-name" style="display:flex;align-items:center;gap:6px">'+
+      '<span style="width:8px;height:8px;border-radius:2px;background:'+col+';display:inline-block"></span>'+st+'</span>'+
+      '<span class="status-bar-count">'+cnt+'</span>'+
+      '</div>'+
+      '<div class="status-track"><div class="status-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
+      '<div class="status-pct">'+pct+'%</div>'+
       '</div>';
-  }
-  document.getElementById('legend').innerHTML = legendHtml;
+  });
+  document.getElementById('statusBars').innerHTML=html||'<div class="loading" style="padding:20px">Keine Daten</div>';
+
+  /* umsatz mini by status */
+  var umsatzByStatus={};
+  rows.forEach(function(r){
+    var f=field(r);
+    var s=f('Status')||'Neu eingegangen';
+    var u=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    umsatzByStatus[s]=(umsatzByStatus[s]||0)+u;
+  });
+  var uEntries=Object.keys(umsatzByStatus).map(function(k){return[k,umsatzByStatus[k]];});
+  uEntries.sort(function(a,b){return b[1]-a[1];});
+  var maxU=uEntries.length?uEntries[0][1]:1;
+  var uHtml='';
+  uEntries.forEach(function(e){
+    if(!e[1]) return;
+    var col=sColor(e[0]);
+    var pct=Math.round(e[1]/maxU*100);
+    uHtml+='<div style="margin-bottom:8px">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px">'+
+      '<span style="font-size:11px;color:var(--muted)">'+e[0]+'</span>'+
+      '<span style="font-size:11px;font-weight:600;color:var(--text)">'+fmtK(e[1])+'</span>'+
+      '</div>'+
+      '<div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden">'+
+      '<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:3px"></div>'+
+      '</div></div>';
+  });
+  document.getElementById('umsatzMini').innerHTML=uHtml||'<span style="font-size:11px;color:var(--muted)">-</span>';
 }
 
+/* ---- STAT CARDS ÜBERSICHT ---- */
 function buildStats(rows) {
-  var total = rows.length;
-  var erteilt = 0, versandt = 0, totalUmsatz = 0;
-  for (var i = 0; i < rows.length; i++) {
-    var sl = (rows[i]['Status'] || '').toLowerCase();
-    if (sl.indexOf('erteilt') >= 0) erteilt++;
-    if (sl.indexOf('versandt') >= 0) versandt++;
-    totalUmsatz += parseMoney(rows[i]['Umsatz-Potenzial'] || rows[i]['Umsatz'] || '');
-  }
+  var total=rows.length, erteilt=0, versandt=0, totalU=0;
+  rows.forEach(function(r){
+    var f=field(r);
+    var sl=(f('Status')||'').toLowerCase();
+    if(sl.indexOf('erteilt')>=0) erteilt++;
+    if(sl.indexOf('versandt')>=0) versandt++;
+    totalU+=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+  });
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-versandt').textContent=versandt;
+  document.getElementById('s-erteilt').textContent=erteilt;
+  document.getElementById('s-umsatz').innerHTML=fmtK(totalU);
+  buildROI(rows, erteilt, versandt, totalU);
+}
 
-  document.getElementById('s-total').textContent = total;
-  document.getElementById('s-versandt').textContent = versandt;
-  document.getElementById('s-erteilt').textContent = erteilt;
-  document.getElementById('s-umsatz').textContent = fmtEuro(totalUmsatz);
+/* ---- ROI PAGE ---- */
+function buildROI(rows, erteilt, versandt, totalU) {
+  /* cards */
+  var withU=rows.filter(function(r){return parseMoney(field(r)('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'))>0;});
+  var avg=withU.length?totalU/withU.length:0;
+  var confirmedU=0;
+  rows.forEach(function(r){
+    var f=field(r);
+    if((f('Status')||'').toLowerCase().indexOf('erteilt')>=0)
+      confirmedU+=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+  });
+  var totalLeads=rows.length;
+  /* offersGenerated = rows with Angebot-Version >= 1 */
+  var offersGen=rows.filter(function(r){
+    var v=parseInt(field(r)('Angebot-Version','Version')||'0');
+    return v>=1;
+  }).length;
+  /* time savings: 30min qual + 2h offer per generated offer */
+  var qualHours=totalLeads*0.5;
+  var offerHours=offersGen*2;
+  var totalHours=qualHours+offerHours;
+  var timeMoney=totalHours*50;
 
-  var conv = total ? Math.round(erteilt/total*100) : 0;
-  document.getElementById('r-conv').textContent = conv + '%';
+  document.getElementById('r-offers').textContent=offersGen||versandt;
+  document.getElementById('r-avg').innerHTML=fmtK(avg);
+  document.getElementById('r-confirmed').innerHTML=fmtK(confirmedU);
+  document.getElementById('r-time').textContent=Math.round(totalHours)+'h';
+  document.getElementById('r-timeval').innerHTML=fmtK(timeMoney);
 
-  var withUmsatz = rows.filter(function(r){ return parseMoney(r['Umsatz-Potenzial']||r['Umsatz']||'') > 0; });
-  var avg = withUmsatz.length ? totalUmsatz / withUmsatz.length : 0;
-  document.getElementById('r-avg').textContent = fmtEuro(avg);
-
-  var confirmed = 0;
-  for (var j = 0; j < rows.length; j++) {
-    if ((rows[j]['Status']||'').toLowerCase().indexOf('erteilt') >= 0) {
-      confirmed += parseMoney(rows[j]['Umsatz-Potenzial']||rows[j]['Umsatz']||'');
-    }
-  }
-  document.getElementById('r-confirmed').textContent = fmtEuro(confirmed);
-
+  buildCompareChart(totalLeads, offersGen, totalHours, timeMoney);
+  buildCostTable(timeMoney);
+  buildKIMetrics(totalLeads, offersGen, totalHours, versandt);
+  buildTimeChart(qualHours, offerHours);
   buildBarChart(rows);
 }
 
-function buildBarChart(rows) {
-  var byGewerk = {};
-  for (var i = 0; i < rows.length; i++) {
-    var g = (rows[i]['Gewerk/Projektart'] || rows[i]['Gewerk'] || 'Sonstige').substring(0, 22);
-    var u = parseMoney(rows[i]['Umsatz-Potenzial']||rows[i]['Umsatz']||'');
-    byGewerk[g] = (byGewerk[g]||0) + u;
-  }
-  var entries = Object.keys(byGewerk).map(function(k){ return [k, byGewerk[k]]; });
-  entries.sort(function(a,b){ return b[1]-a[1]; });
-  entries = entries.slice(0,6);
-  var maxVal = entries.length ? entries[0][1] : 1;
-  var colors = ['lime','cyan','orange','lime','cyan','orange'];
-  var html = '';
-  for (var j = 0; j < entries.length; j++) {
-    var pct = Math.round(entries[j][1]/maxVal*100);
-    html += '<div class="bar-row">' +
-      '<div class="bar-label">' + entries[j][0] + '</div>' +
-      '<div class="bar-track"><div class="bar-fill ' + colors[j] + '" style="width:' + pct + '%">' + fmtEuro(entries[j][1]) + '</div></div>' +
-      '</div>';
-  }
-  document.getElementById('barChart').innerHTML = html || '<div class="loading">Keine Daten</div>';
+/* ---- COMPARISON CHART (Ohne vs. Mit) ---- */
+function buildCompareChart(leads, offers, hours, savings) {
+  /* WITHOUT: assume 3h per lead manual work + 2h per offer */
+  var manualHours = leads*3 + offers*2;
+  var manualCost = manualHours*50;
+  var autoCost = 40.5; /* fixed monthly cost */
+  var autoHours = 0; /* fully automated */
+
+  /* Bars scaled to max */
+  var maxH = Math.max(manualHours, 1);
+  var maxC = Math.max(manualCost, 1);
+
+  var hPct = Math.min(Math.round(manualHours/maxH*100),100);
+  var cPct = Math.min(Math.round(autoCost/manualCost*100),100);
+
+  var barH = 160;
+
+  document.getElementById('compareGrid').innerHTML =
+    '<div class="compare-col">'+
+      '<div class="compare-bar-wrap">'+
+        '<div class="compare-bar" style="height:'+(hPct/100*barH)+'px;background:linear-gradient(0deg,#f85149,#ff6b6b);color:#fff;font-size:12px">'+Math.round(manualHours)+'h</div>'+
+        '<div style="height:'+(barH - hPct/100*barH)+'px"></div>'+
+      '</div>'+
+      '<div class="compare-label">Ohne<br>Automatisierung</div>'+
+      '<div class="compare-value" style="color:var(--red)">'+Math.round(manualHours)+'h / Monat</div>'+
+    '</div>'+
+    '<div style="display:flex;align-items:center;padding-bottom:40px"><span style="font-size:10px;color:var(--muted);writing-mode:vertical-lr;transform:rotate(180deg)">Arbeitsstunden</span></div>'+
+    '<div class="compare-col">'+
+      '<div class="compare-bar-wrap">'+
+        '<div style="height:'+(barH - 8)+'px"></div>'+
+        '<div class="compare-bar" style="height:8px;background:linear-gradient(0deg,var(--lime),#86efac);color:#0a0a0a;font-size:11px;padding:0 4px">~0h</div>'+
+      '</div>'+
+      '<div class="compare-label">Mit Core<br>Automation</div>'+
+      '<div class="compare-value" style="color:var(--lime)">~0h / Monat</div>'+
+    '</div>';
+
+  document.getElementById('compareStats').innerHTML =
+    '<div style="background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.2);border-radius:8px;padding:12px;text-align:center">'+
+      '<div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Gesparte Stunden</div>'+
+      '<div style="font-size:20px;font-weight:700;color:var(--lime)">'+Math.round(manualHours)+'h</div>'+
+    '</div>'+
+    '<div style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:8px;padding:12px;text-align:center">'+
+      '<div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Gesparter Wert</div>'+
+      '<div style="font-size:20px;font-weight:700;color:var(--cyan)">'+fmtK(manualCost-40.5)+'</div>'+
+    '</div>';
 }
 
-function buildCostTable() {
-  var rows = [
-    ['n8n Automation (Cloud)', '20,00 EUR', 'minus'],
-    ['Claude API (KI)', '8,50 EUR', 'minus'],
-    ['Google Workspace', '12,00 EUR', 'minus'],
-    ['Streamlit Dashboard', '0,00 EUR', 'neutral'],
-    ['Gesamt Kosten', '40,50 EUR', 'minus'],
-    ['Zeitersparnis (10h x 50 EUR)', '500,00 EUR', 'plus'],
-    ['Netto-Vorteil / Monat', '459,50 EUR', 'plus']
+/* ---- COST TABLE ---- */
+function buildCostTable(timeSavings) {
+  var items = [
+    ['n8n Automation (Cloud)', 20.00, 'out'],
+    ['Claude API (KI-Angebote)', 8.50, 'out'],
+    ['Google Workspace', 12.00, 'out'],
+    ['Streamlit Dashboard', 0.00, 'neutral'],
+    ['', null, 'divider'],
+    ['Gesamt Kosten', 40.50, 'out'],
+    ['Gesparte Arbeitszeit', timeSavings, 'in'],
+    ['Netto-Vorteil', timeSavings - 40.50, 'net'],
   ];
-  var html = '';
-  for (var i = 0; i < rows.length; i++) {
-    var cls = rows[i][2] === 'plus' ? 'plus' : rows[i][2] === 'minus' ? 'minus' : 'neutral';
-    var typ = rows[i][2] === 'plus' ? 'Einsparung' : rows[i][2] === 'minus' ? 'Kosten' : '-';
-    html += '<tr><td>' + rows[i][0] + '</td><td class="' + cls + '">' + rows[i][1] + '</td><td class="' + cls + '">' + typ + '</td></tr>';
-  }
-  document.getElementById('costBody').innerHTML = html;
+  var html='';
+  items.forEach(function(item){
+    if(item[1]===null) return;
+    var cls = item[2]==='in'?'plus':item[2]==='out'?'minus':item[2]==='net'?'plus neutral':item[2]==='neutral'?'neutral':'neutral';
+    var sign = item[2]==='in'||item[2]==='net'?'+ ':item[2]==='out'?'- ':'';
+    html+='<tr><td>'+item[0]+'</td><td class="'+cls+'">'+sign+item[1].toFixed(2).replace('.',',')+' &#8364;</td></tr>';
+  });
+  document.getElementById('costBody').innerHTML=html;
 }
 
+/* ---- KI METRIKEN ---- */
+function buildKIMetrics(leads, offers, hours, versandt) {
+  document.getElementById('kiMetrics').innerHTML =
+    '<div class="kpi-item"><div class="kpi-val" style="color:var(--cyan)">'+leads+'</div><div class="kpi-lbl">Leads qualifiziert</div></div>'+
+    '<div class="kpi-item"><div class="kpi-val" style="color:var(--lime)">'+offers+'</div><div class="kpi-lbl">Angebote generiert</div></div>'+
+    '<div class="kpi-item"><div class="kpi-val" style="color:var(--purple)">'+Math.round(hours)+'h</div><div class="kpi-lbl">Stunden gespart</div></div>';
+}
+
+/* ---- TIME CHART ---- */
+function buildTimeChart(qualH, offerH) {
+  var total = qualH + offerH || 1;
+  var colors = ['bf-cyan','bf-lime'];
+  var items = [
+    ['Lead-Qualifizierung (30 min/Lead)', qualH, 'bf-cyan'],
+    ['Angebots-Erstellung (2h/Angebot)', offerH, 'bf-lime'],
+  ];
+  var html='';
+  items.forEach(function(item){
+    var pct=Math.round(item[1]/total*100);
+    html+='<div class="bar-row" style="margin-bottom:8px">'+
+      '<div class="bar-label" style="font-size:10px;width:160px">'+item[0]+'</div>'+
+      '<div class="bar-track" style="height:16px"><div class="bar-fill '+item[2]+'" style="width:'+(pct||5)+'%">'+Math.round(item[1])+'h</div></div>'+
+      '</div>';
+  });
+  document.getElementById('timeChart').innerHTML=html;
+}
+
+/* ---- UMSATZ NACH GEWERK ---- */
+function buildBarChart(rows) {
+  var byG={};
+  rows.forEach(function(r){
+    var f=field(r);
+    var g=(f('Gewerk/Projektart','Gewerk','Projektart')||'Sonstige').substring(0,22);
+    var u=parseMoney(f('Umsatz-Potenzial','Umsatz','Umsatzpotenzial'));
+    byG[g]=(byG[g]||0)+u;
+  });
+  var entries=Object.keys(byG).map(function(k){return[k,byG[k]];});
+  entries.sort(function(a,b){return b[1]-a[1];});
+  entries=entries.slice(0,7);
+  var mx=entries.length?entries[0][1]:1;
+  var cls=['bf-lime','bf-cyan','bf-orange','bf-green','bf-purple','bf-cyan','bf-lime'];
+  var html='';
+  entries.forEach(function(e,i){
+    var pct=Math.round(e[1]/mx*100);
+    html+='<div class="bar-row">'+
+      '<div class="bar-label">'+e[0]+'</div>'+
+      '<div class="bar-track"><div class="bar-fill '+cls[i]+'" style="width:'+Math.max(pct,5)+'%">'+fmtK(e[1])+'</div></div>'+
+      '</div>';
+  });
+  document.getElementById('barChart').innerHTML=html||'<div class="loading">Keine Daten</div>';
+}
+
+/* ---- DEMO DATA ---- */
+function demoData() {
+  return [
+    {'Projekt-ID':'FT-1001','Kunden-Name':'Müller GmbH','E-Mail-Adresse':'info@mueller.de','Gewerk/Projektart':'PV-Anlage 12 kW + Speicher','Status':'Auftrag erteilt','Umsatz-Potenzial':'28500','Erstkontakt-Datum':'2026-05-10','Projektdetails':'PV-Anlage 12 kWp auf Satteldach Süd-Ausrichtung 30°. Suntech 400W Module (30 Stück). SMA Wechselrichter 10 kW. BYD Battery-Box 10 kWh Speicher.','Angebot-Version':'2'},
+    {'Projekt-ID':'FT-1002','Kunden-Name':'Schneider KG','E-Mail-Adresse':'s.schneider@kg.de','Gewerk/Projektart':'Elektroinstallation','Status':'Angebot versandt','Umsatz-Potenzial':'15200','Erstkontakt-Datum':'2026-05-14','Projektdetails':'Komplette Neuinstallation Elektro in EFH 180m². UV Keller, UV OG, 3 Stromkreise Küche, 6 Außensteckdosen, 2x Wallbox-Vorbereitung 11kW.','Angebot-Version':'1'},
+    {'Projekt-ID':'FT-1003','Kunden-Name':'Weber & Partner','E-Mail-Adresse':'weber@partner.com','Gewerk/Projektart':'Wärmepumpe Luft/Wasser','Status':'In Prüfung','Umsatz-Potenzial':'32000','Erstkontakt-Datum':'2026-05-18','Projektdetails':'Austausch Gasheizung gegen Luft-Wasser-WP Vaillant aroTherm plus 12 kW. Hydraulische Einbindung bestehende FBH. Förderantrag BEG gestellt.','Angebot-Version':'1'},
+    {'Projekt-ID':'FT-1004','Kunden-Name':'Fischer Immobilien','E-Mail-Adresse':'info@fischer-immo.de','Gewerk/Projektart':'PV-Anlage 20 kW Gewerbe','Status':'Wartet auf Infos','Umsatz-Potenzial':'45000','Erstkontakt-Datum':'2026-05-20','Projektdetails':'Gebäude 800m² Dachfläche. PV 20 kWp. Victron Energy Wechselrichter. 30 kWh Batteriespeicher.','Angebot-Version':'0'},
+    {'Projekt-ID':'FT-1005','Kunden-Name':'Thomas Bauer','E-Mail-Adresse':'t.bauer@web.de','Gewerk/Projektart':'Wallbox + Smart Home','Status':'Neu eingegangen','Umsatz-Potenzial':'3800','Erstkontakt-Datum':'2026-05-28','Projektdetails':'2x Wallbox 11kW ABB Terra AC. Smart-Home KNX. Lastmanagement. Zuleitung 16mm², ca. 25m.','Angebot-Version':'0'},
+    {'Projekt-ID':'FT-1006','Kunden-Name':'Reinhardt Bau','E-Mail-Adresse':'rein@bau.de','Gewerk/Projektart':'Elektro Neubau MFH','Status':'Auftrag erteilt','Umsatz-Potenzial':'68000','Erstkontakt-Datum':'2026-04-15','Projektdetails':'Elektroinstallation Neubau MFH 8 WE. Komplette NSHV, 8 Wohnungsverteiler, Tiefgarage 4 Stellplätze, Wallbox-Vorbereitung, Klingel-Video.','Angebot-Version':'3'},
+  ];
+}
+
+/* ---- LOAD ---- */
 function renderAll(rows) {
   buildStats(rows);
   buildTable(rows);
-  buildDonut(rows);
-  buildCostTable();
-}
-
-function getDemoData() {
-  return [
-    {'Projekt-ID':'FT-1001','Kunden-Name':'Müller GmbH','E-Mail-Adresse':'info@mueller.de','Gewerk/Projektart':'PV-Anlage 12 kW + Speicher','Status':'Auftrag erteilt','Umsatz-Potenzial':'28500','Erstkontakt-Datum':'2026-05-10','Projektdetails':'PV-Anlage 12 kWp auf Satteldach Süd-Ausrichtung 30°. Suntech 400W Module (30 Stück). SMA Wechselrichter 10 kW. BYD Battery-Box 10 kWh Speicher. Netzanmeldung und Inbetriebnahme inklusive.','Angebot-Version':'2'},
-    {'Projekt-ID':'FT-1002','Kunden-Name':'Schneider KG','E-Mail-Adresse':'s.schneider@kg.de','Gewerk/Projektart':'Elektroinstallation','Status':'Angebot versandt','Umsatz-Potenzial':'15200','Erstkontakt-Datum':'2026-05-14','Projektdetails':'Komplette Neuinstallation Elektro in EFH 180m². UV Keller, UV OG, 3 Stromkreise Küche, 6 Außensteckdosen, 2x Wallbox-Vorbereitung 11kW, FI-Schutzschalter alle Stromkreise.','Angebot-Version':'1'},
-    {'Projekt-ID':'FT-1003','Kunden-Name':'Weber & Partner','E-Mail-Adresse':'weber@partner.com','Gewerk/Projektart':'Wärmepumpe Luft/Wasser','Status':'In Prüfung','Umsatz-Potenzial':'32000','Erstkontakt-Datum':'2026-05-18','Projektdetails':'Austausch Gasheizung gegen Luft-Wasser-WP Vaillant aroTherm plus 12 kW. Hydraulische Einbindung bestehende FBH. 200L Warmwasserspeicher. Förderantrag BEG gestellt. Inbetriebnahme geplant Sep 2026.','Angebot-Version':'1'},
-    {'Projekt-ID':'FT-1004','Kunden-Name':'Fischer Immobilien','E-Mail-Adresse':'info@fischer-immo.de','Gewerk/Projektart':'PV-Anlage 20 kW Gewerbe','Status':'Wartet auf Infos','Umsatz-Potenzial':'45000','Erstkontakt-Datum':'2026-05-20','Projektdetails':'Gewerbegebäude 800m² Dachfläche. PV-Anlage 20 kWp. Aufdachmontage Trapezblech. Victron Energy Wechselrichter. 30 kWh Batteriespeicher für Eigenverbrauchsoptimierung.','Angebot-Version':'0'},
-    {'Projekt-ID':'FT-1005','Kunden-Name':'Thomas Bauer','E-Mail-Adresse':'t.bauer@web.de','Gewerk/Projektart':'Wallbox + Smart Home','Status':'Neu eingegangen','Umsatz-Potenzial':'3800','Erstkontakt-Datum':'2026-05-28','Projektdetails':'2x Wallbox 11kW ABB Terra AC. Smart-Home-Anbindung KNX. Lastmanagement für beide Ladepunkte. Zuleitung aus HV 16mm² neu verlegen, ca. 25m.','Angebot-Version':'0'},
-    {'Projekt-ID':'FT-1006','Kunden-Name':'Reinhardt Bau','E-Mail-Adresse':'rein@bau.de','Gewerk/Projektart':'Elektro Neubau MFH','Status':'Auftrag erteilt','Umsatz-Potenzial':'68000','Erstkontakt-Datum':'2026-04-15','Projektdetails':'Elektroinstallation Neubau MFH 8 WE. Komplette NSHV, 8 Wohnungsverteiler, Tiefgarage 4 Stellplätze mit Wallbox-Vorbereitung, Außenbeleuchtung, Klingel-Video-Anlage, SAT-Anlage Gemeinschaft.','Angebot-Version':'3'}
-  ];
+  buildStatusBars(rows);
 }
 
 function loadData() {
   fetch(CSV_URL)
-    .then(function(resp) {
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      return resp.text();
-    })
-    .then(function(text) {
-      var rows = parseCSV(text);
-      if (!rows.length) throw new Error('Keine Zeilen');
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(t){
+      var rows=parseCSV(t);
+      if(!rows.length) throw new Error('empty');
       renderAll(rows);
-      document.getElementById('lastUpdate').textContent = 'Aktualisiert: ' + new Date().toLocaleTimeString('de-DE');
+      document.getElementById('lastUpdate').textContent='Aktualisiert: '+new Date().toLocaleTimeString('de-DE');
+      document.getElementById('liveDot').style.background='#3fb950';
+      document.getElementById('liveDot').style.boxShadow='0 0 6px #3fb950';
     })
-    .catch(function(e) {
-      console.warn('Google Sheets fetch fehlgeschlagen, nutze Demo-Daten:', e);
-      renderAll(getDemoData());
-      document.getElementById('lastUpdate').textContent = 'Demo-Daten (offline)';
-      document.querySelector('.dot').style.background = '#d29922';
-      document.querySelector('.dot').style.boxShadow = '0 0 6px #d29922';
+    .catch(function(e){
+      console.warn('Fetch fehlgeschlagen, Demo-Daten:', e);
+      renderAll(demoData());
+      document.getElementById('lastUpdate').textContent='Demo-Daten';
+      document.getElementById('liveDot').style.background='#d29922';
+      document.getElementById('liveDot').style.boxShadow='0 0 6px #d29922';
     });
 }
 
 loadData();
-setInterval(loadData, 5 * 60 * 1000);
+setInterval(loadData, 5*60*1000);
 </script>
 </body>
 </html>
