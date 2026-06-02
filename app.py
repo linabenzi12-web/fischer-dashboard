@@ -151,7 +151,7 @@ def load_leads() -> tuple[pd.DataFrame, bool]:
     Weitere Blätter (z. B. 'Preise') werden durch gid=0 automatisch ignoriert."""
     for enc in ("utf-8-sig", "utf-8", "latin-1"):
         try:
-            df = pd.read_csv(SHEET_URL, on_bad_lines="skip", encoding=enc)
+            df = pd.read_csv(SHEET_URL, on_bad_lines="skip", encoding=enc, dtype=object)
             df = df.dropna(how="all").rename(columns=COLUMN_ALIASES)
             df.columns = [c.strip() for c in df.columns]
             if len(df) >= 3:
@@ -283,7 +283,8 @@ with col_pie:
     """, unsafe_allow_html=True)
 
     if not df.empty and "Status" in df.columns:
-        s = df["Status"].astype(object).fillna("").astype(str).str.strip().value_counts().reset_index()
+        status_vals = [_safe_str(v).strip() for v in df["Status"]]
+        s = pd.Series(status_vals).value_counts().reset_index()
         s.columns = ["Status", "Anzahl"]
         palette = [color_for_status(r) for r in s["Status"]]
 
@@ -339,15 +340,12 @@ with col_table:
         out = out.sort_values("_d", ascending=False).drop(columns=["_d"])
 
     if "Status" in out.columns:
-        out["Status"] = (
-            out["Status"].astype(object).fillna("").astype(str).str.strip()
-            .map(lambda s: f"{emoji_for_status(s)} {s}")
-        )
+        vals = [_safe_str(v).strip() for v in out["Status"]]
+        out["Status"] = [f"{emoji_for_status(s)} {s}" for s in vals]
 
     if "Umsatz-Potenzial" in out.columns:
-        out["Umsatz-Potenzial"] = df["_num"].reindex(out.index).map(
-            lambda v: fmt_eur(v) if pd.notna(v) else "—"
-        )
+        nums = list(df["_num"].reindex(out.index))
+        out["Umsatz-Potenzial"] = [fmt_eur(v) if pd.notna(v) else "—" for v in nums]
 
     st.dataframe(
         out.reset_index(drop=True),
