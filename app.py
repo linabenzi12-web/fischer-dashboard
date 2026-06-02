@@ -60,7 +60,7 @@ st.markdown("""
 
 def color_for_status(label) -> str:
     """Ampel-Farbe per Teilstring-Match (ASCII-safe, Umlaute egal)."""
-    if not label or not isinstance(label, str):
+    if not isinstance(label, str):
         return "#9ca3af"
     l = label.lower()
     if "erteilt"   in l:                  return "#6e9b71"   # Salbeigrün
@@ -71,7 +71,7 @@ def color_for_status(label) -> str:
 
 def emoji_for_status(label) -> str:
     """Dezenter Farbpunkt für Tabellenspalte."""
-    if not label or not isinstance(label, str):
+    if not isinstance(label, str):
         return "⚪"
     l = label.lower()
     if "erteilt"   in l:                  return "🟢"
