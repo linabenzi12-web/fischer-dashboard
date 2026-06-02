@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Automation — Operations Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #070b0f;
+  --sur:     #0d1421;
+  --sur2:    #111927;
+  --bdr:     #1a2840;
+  --lime:    #a3e635;
+  --cyan:    #22d3ee;
+  --blue:    #3b82f6;
+  --amber:   #f59e0b;
+  --green:   #4ade80;
+  --red:     #f87171;
+  --txt:     #e2e8f0;
+  --txt2:    #64748b;
+  --txt3:    #94a3b8;
+}
+
+html, body {
+  height: 100%; overflow: hidden;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(34,211,238,.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(163,230,53,.04)  0%, transparent 55%);
+  color: var(--txt);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+body { display: flex; flex-direction: column; }
+
+/* ── Header ── */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 50px;
+  background: var(--sur); border-bottom: 1px solid var(--bdr); flex-shrink: 0;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--cyan), var(--lime));
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #000; font-weight: 800;
+  box-shadow: 0 0 12px rgba(34,211,238,.3);
+}
+.logo-name { font-size: 14px; font-weight: 700; letter-spacing: -.3px; }
+.logo-name em { font-style: normal; color: var(--lime); }
+.logo-tag {
+  font-size: 10px; color: var(--txt2);
+  background: var(--sur2); border: 1px solid var(--bdr);
+  padding: 2px 8px; border-radius: 20px;
+}
+.hdr-right { display: flex; align-items: center; gap: 14px; }
+.live {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--green);
+  background: rgba(74,222,128,.08); border: 1px solid rgba(74,222,128,.2);
+  padding: 3px 10px; border-radius: 20px;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 6px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hdr-date { font-size: 11.5px; color: var(--txt2); display: flex; align-items: center; gap: 5px; }
+
+/* ── Nav ── */
+nav {
+  display: flex; align-items: center; gap: 3px;
+  padding: 0 22px; height: 40px;
+  background: var(--sur); border-bottom: 1px solid var(--bdr); flex-shrink: 0;
+}
+.tab {
+  padding: 5px 14px; border-radius: 7px;
+  font-size: 12px; font-weight: 500; color: var(--txt2);
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: all .15s; border: 1px solid transparent; user-select: none;
+}
+.tab:hover { color: var(--txt3); background: var(--sur2); }
+.tab.active { color: var(--lime); background: rgba(163,230,53,.07); border-color: rgba(163,230,53,.18); }
+.tab i { font-size: 11px; }
+
+/* ── Main ── */
+main {
+  flex: 1; overflow: hidden; padding: 13px 22px;
+  display: flex; flex-direction: column; gap: 11px; min-height: 0;
+}
+.page { display: none; flex-direction: column; gap: 11px; height: 100%; min-height: 0; }
+.page.active { display: flex; }
+
+/* ── Cards ── */
+.row4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 11px; flex-shrink: 0; }
+.row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 11px; flex-shrink: 0; }
+
+.card {
+  background: var(--sur); border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 12px 15px 11px; position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.card:hover { border-color: #253550; }
+.card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+}
+.c-cy::after  { background: linear-gradient(90deg,var(--cyan),transparent 70%); }
+.c-li::after  { background: linear-gradient(90deg,var(--lime),transparent 70%); }
+.c-bl::after  { background: linear-gradient(90deg,var(--blue),transparent 70%); }
+.c-am::after  { background: linear-gradient(90deg,var(--amber),transparent 70%); }
+
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.card-lbl { font-size: 10px; font-weight: 600; color: var(--txt2); text-transform: uppercase; letter-spacing: .6px; }
+.card-ico { width: 27px; height: 27px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+.i-cy  { background: rgba(34,211,238,.1);  color: var(--cyan); }
+.i-li  { background: rgba(163,230,53,.1); color: var(--lime); }
+.i-bl  { background: rgba(59,130,246,.1);  color: var(--blue); }
+.i-am  { background: rgba(245,158,11,.1);  color: var(--amber); }
+
+.card-val { font-size: 21px; font-weight: 800; letter-spacing: -.6px; line-height: 1; }
+.v-cy { color: var(--cyan); }
+.v-li { color: var(--lime); }
+.v-bl { color: var(--blue); }
+.v-am { color: var(--amber); }
+
+.card-sub { font-size: 11px; color: var(--txt2); margin-top: 2px; }
+.trend {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-top: 6px;
+}
+.t-up   { background: rgba(74,222,128,.08);  color: var(--green); }
+.t-down { background: rgba(248,113,113,.08); color: var(--red); }
+
+/* ── Table ── */
+.tbl-wrap {
+  flex: 1; min-height: 0; background: var(--sur); border: 1px solid var(--bdr);
+  border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;
+}
+.tbl-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 15px; border-bottom: 1px solid var(--bdr); flex-shrink: 0;
+}
+.tbl-title { font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.tbl-title i { color: var(--cyan); font-size: 11px; }
+.cnt {
+  font-size: 10.5px; color: var(--txt2);
+  background: var(--sur2); border: 1px solid var(--bdr);
+  padding: 2px 9px; border-radius: 20px;
+}
+.tbl-scroll { flex: 1; overflow-y: auto; min-height: 0; }
+.tbl-scroll::-webkit-scrollbar { width: 3px; }
+.tbl-scroll::-webkit-scrollbar-thumb { background: var(--bdr); border-radius: 2px; }
+
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  position: sticky; top: 0; background: var(--sur2);
+  padding: 8px 14px; font-size: 10px; font-weight: 600; color: var(--txt2);
+  text-transform: uppercase; letter-spacing: .5px; text-align: left;
+  border-bottom: 1px solid var(--bdr); white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid rgba(26,40,64,.5); transition: background .1s; }
+tbody tr:hover { background: rgba(255,255,255,.018); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 9px 14px; font-size: 12.5px; color: var(--txt); white-space: nowrap; }
+.td-id { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: var(--txt3); font-weight: 500; }
+.td-m  { color: var(--txt2); font-size: 12px; }
+.td-cut{ color: var(--txt3); font-size: 12px; max-width: 190px; overflow: hidden; text-overflow: ellipsis; }
+.td-eur{ font-weight: 700; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; white-space: nowrap;
+}
+.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.b-er { background: rgba(74,222,128,.09);  color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
+.b-er::before { background: #4ade80; box-shadow: 0 0 4px #4ade80; }
+.b-vs { background: rgba(163,230,53,.09); color: var(--lime); border: 1px solid rgba(163,230,53,.2); }
+.b-vs::before { background: var(--lime); }
+.b-pr { background: rgba(59,130,246,.09);  color: #60a5fa; border: 1px solid rgba(59,130,246,.2); }
+.b-pr::before { background: #60a5fa; }
+.b-wa { background: rgba(245,158,11,.09);  color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
+.b-wa::before { background: var(--amber); }
+.b-ne { background: rgba(148,163,184,.07); color: var(--txt3); border: 1px solid rgba(148,163,184,.14); }
+.b-ne::before { background: var(--txt3); }
+
+/* ── ROI page ── */
+.roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; flex: 1; min-height: 0; }
+.roi-card {
+  background: var(--sur); border: 1px solid var(--bdr);
+  border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; min-height: 0;
+}
+.roi-hd { padding: 11px 17px 9px; border-bottom: 1px solid var(--bdr); flex-shrink: 0; }
+.roi-title { font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px; margin-bottom: 2px; }
+.roi-title i { color: var(--lime); font-size: 11px; }
+.roi-sub { font-size: 11px; color: var(--txt2); }
+.roi-body { flex: 1; padding: 12px 17px; display: flex; flex-direction: column; gap: 8px; overflow: auto; min-height: 0; }
+.roi-body::-webkit-scrollbar { width: 3px; }
+.roi-body::-webkit-scrollbar-thumb { background: var(--bdr); }
+
+/* Chart */
+.chart-wrap { flex: 1; min-height: 0; }
+.chart-wrap svg { width: 100%; height: 100%; display: block; }
+
+/* Cost-benefit */
+.cb-sec-title {
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--txt2); margin-bottom: 5px; padding-bottom: 4px; border-bottom: 1px solid var(--bdr);
+}
+.cb-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; font-size: 11.5px; border-bottom: 1px solid rgba(26,40,64,.4);
+}
+.cb-row:last-child { border-bottom: none; }
+.cb-lbl { color: var(--txt3); }
+.cb-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+.cb-val.neg { color: var(--red); }
+.cb-val.pos { color: var(--lime); }
+.cb-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 13px; margin-top: 6px;
+  background: rgba(163,230,53,.05); border: 1px solid rgba(163,230,53,.18);
+  border-radius: 9px; flex-shrink: 0;
+}
+.cb-total-lbl { font-size: 12px; font-weight: 700; }
+.cb-total-sub { font-size: 10px; color: var(--txt2); margin-top: 1px; }
+.cb-total-val { font-size: 22px; font-weight: 800; color: var(--lime); letter-spacing: -.6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark"><i class="fa-solid fa-bolt"></i></div>
+    <div class="logo-name">Core<em>Automation</em></div>
+    <div class="logo-tag">Operations Hub</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live"><div class="live-dot"></div>Live</div>
+    <div class="hdr-date"><i class="fa-regular fa-calendar" style="font-size:10px"></i><span id="hdate"></span></div>
+  </div>
+</header>
+
+<nav>
+  <div class="tab active" onclick="show('ov')"><i class="fa-solid fa-table-columns"></i>Übersicht</div>
+  <div class="tab"        onclick="show('roi')"><i class="fa-solid fa-chart-line"></i>ROI & Performance</div>
+</nav>
+
+<main>
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="p-ov">
+    <div class="row4">
+      <div class="card c-cy">
+        <div class="card-top"><span class="card-lbl">Gesamt-Pipeline</span><div class="card-ico i-cy"><i class="fa-solid fa-layer-group"></i></div></div>
+        <div class="card-val v-cy">181.300 €</div>
+        <div class="card-sub">Umsatz-Potenzial gesamt</div>
+        <div class="trend t-up"><i class="fa-solid fa-arrow-trend-up"></i>&nbsp;+14 % ggü. Vormonat</div>
+      </div>
+      <div class="card c-li">
+        <div class="card-top"><span class="card-lbl">Generierter Umsatz</span><div class="card-ico i-li"><i class="fa-solid fa-circle-check"></i></div></div>
+        <div class="card-val v-li">24.500 €</div>
+        <div class="card-sub">Erteilte Aufträge</div>
+        <div class="trend t-up"><i class="fa-solid fa-arrow-trend-up"></i>&nbsp;+8 % ggü. Vormonat</div>
+      </div>
+      <div class="card c-bl">
+        <div class="card-top"><span class="card-lbl">Angebote im Umlauf</span><div class="card-ico i-bl"><i class="fa-solid fa-file-lines"></i></div></div>
+        <div class="card-val v-bl">2</div>
+        <div class="card-sub">Aktive Angebote offen</div>
+        <div class="trend t-up"><i class="fa-solid fa-clock"></i>&nbsp;Ø 4,2 Tage Entscheid</div>
+      </div>
+      <div class="card c-am">
+        <div class="card-top"><span class="card-lbl">Offene Neuanfragen</span><div class="card-ico i-am"><i class="fa-solid fa-inbox"></i></div></div>
+        <div class="card-val v-am">2</div>
+        <div class="card-sub">Qualifizierung ausstehend</div>
+        <div class="trend t-down"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;1 wartet auf Infos</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <div class="tbl-bar">
+        <div class="tbl-title"><i class="fa-solid fa-database"></i>Leads & Projekte<span class="cnt">6 Einträge</span></div>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr>
+            <th>Projekt-ID</th><th>Kunde</th><th>E-Mail</th>
+            <th>Gewerk / Details</th><th>Status</th><th>Potenzial</th><th>Datum</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-id">PRJ-2031</td><td>Bau GmbH Paderborn</td>
+              <td class="td-m">kontakt@bau-pd.de</td>
+              <td class="td-cut">Unterverteilung 3-phasig, 250A</td>
+              <td><span class="badge b-er">Auftrag erteilt</span></td>
+              <td class="td-eur">24.500 €</td><td class="td-m">08.05.2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">PRJ-2032</td><td>Sonnenschein Immobilien</td>
+              <td class="td-m">info@si-gruppe.de</td>
+              <td class="td-cut">PV-Anlage 12 kWp inkl. Speicher</td>
+              <td><span class="badge b-vs">Angebot versandt</span></td>
+              <td class="td-eur">38.200 €</td><td class="td-m">12.05.2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">PRJ-2033</td><td>Mayer & Partner Architekten</td>
+              <td class="td-m">office@mayer-arch.de</td>
+              <td class="td-cut">Smart Home KNX Komplettsystem</td>
+              <td><span class="badge b-pr">In Prüfung</span></td>
+              <td class="td-eur">55.000 €</td><td class="td-m">19.05.2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">PRJ-2034</td><td>Logistik Hub GmbH</td>
+              <td class="td-m">technik@logistik-hub.de</td>
+              <td class="td-cut">LED-Hallenbeleuchtung 2.400 m²</td>
+              <td><span class="badge b-wa">Wartet auf Infos</span></td>
+              <td class="td-eur">12.800 €</td><td class="td-m">23.05.2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">PRJ-2035</td><td>Familie Neugebauer</td>
+              <td class="td-m">m.neugebauer@gmx.de</td>
+              <td class="td-cut">E-Mobility Wallbox 22 kW</td>
+              <td><span class="badge b-ne">Neu eingegangen</span></td>
+              <td class="td-eur">3.200 €</td><td class="td-m">28.05.2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">PRJ-2036</td><td>Landhotel Alte Post</td>
+              <td class="td-m">info@alte-post-hotel.de</td>
+              <td class="td-cut">EV-Ladepark 8 Ladepunkte AC/DC</td>
+              <td><span class="badge b-vs">Angebot versandt</span></td>
+              <td class="td-eur">47.600 €</td><td class="td-m">01.06.2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="p-roi">
+    <div class="row3">
+      <div class="card c-li">
+        <div class="card-top"><span class="card-lbl">Automatisierte Angebote</span><div class="card-ico i-li"><i class="fa-solid fa-robot"></i></div></div>
+        <div class="card-val v-li">142</div>
+        <div class="card-sub">Angebote seit Inbetriebnahme</div>
+        <div class="trend t-up"><i class="fa-solid fa-arrow-trend-up"></i>&nbsp;Ø 4,2 pro Tag</div>
+      </div>
+      <div class="card c-cy">
+        <div class="card-top"><span class="card-lbl">Gerettete Arbeitszeit</span><div class="card-ico i-cy"><i class="fa-solid fa-hourglass-half"></i></div></div>
+        <div class="card-val v-cy">84 Std.</div>
+        <div class="card-sub">Diesen Monat eingespart</div>
+        <div class="trend t-up"><i class="fa-solid fa-clock"></i>&nbsp;Ø 2,1 h pro Angebot</div>
+      </div>
+      <div class="card c-am">
+        <div class="card-top"><span class="card-lbl">KI-Zusatzumsatz</span><div class="card-ico i-am"><i class="fa-solid fa-sack-dollar"></i></div></div>
+        <div class="card-val v-am">67.400 €</div>
+        <div class="card-sub">Durch automatisches Follow-up</div>
+        <div class="trend t-up"><i class="fa-solid fa-arrow-trend-up"></i>&nbsp;+23 % ggü. Vormonat</div>
+      </div>
+    </div>
+
+    <div class="roi-grid">
+      <!-- Chart -->
+      <div class="roi-card">
+        <div class="roi-hd">
+          <div class="roi-title"><i class="fa-solid fa-chart-area"></i>Umsatz durch Automation</div>
+          <div class="roi-sub">Monatlicher Umsatzbeitrag der KI-Automation — Jan bis Jun 2026</div>
+        </div>
+        <div class="roi-body" style="padding:10px 14px 8px">
+          <div class="chart-wrap">
+            <svg viewBox="0 0 560 210" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="aG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#22d3ee" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="lG" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"   stop-color="#22d3ee"/>
+                  <stop offset="100%" stop-color="#a3e635"/>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <line x1="52" y1="25"  x2="540" y2="25"  stroke="#1a2840" stroke-width="1"/>
+              <line x1="52" y1="65"  x2="540" y2="65"  stroke="#1a2840" stroke-width="1"/>
+              <line x1="52" y1="105" x2="540" y2="105" stroke="#1a2840" stroke-width="1"/>
+              <line x1="52" y1="145" x2="540" y2="145" stroke="#1a2840" stroke-width="1"/>
+              <line x1="52" y1="185" x2="540" y2="185" stroke="#1a2840" stroke-width="1"/>
+              <text x="46" y="29"  fill="#3d5a7a" font-size="9" text-anchor="end" font-family="Inter">35k</text>
+              <text x="46" y="69"  fill="#3d5a7a" font-size="9" text-anchor="end" font-family="Inter">28k</text>
+              <text x="46" y="109" fill="#3d5a7a" font-size="9" text-anchor="end" font-family="Inter">21k</text>
+              <text x="46" y="149" fill="#3d5a7a" font-size="9" text-anchor="end" font-family="Inter">14k</text>
+              <text x="46" y="189" fill="#3d5a7a" font-size="9" text-anchor="end" font-family="Inter">7k</text>
+              <text x="60"  y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Jan</text>
+              <text x="156" y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Feb</text>
+              <text x="252" y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Mär</text>
+              <text x="348" y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Apr</text>
+              <text x="444" y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Mai</text>
+              <text x="540" y="200" fill="#3d5a7a" font-size="9" text-anchor="middle" font-family="Inter">Jun</text>
+              <path d="M 60,154 C 92,154 124,121 156,121 C 188,121 220,134 252,134 C 284,134 316,97 348,97 C 380,97 412,61 444,61 C 476,61 508,47 540,47 L 540,185 L 60,185 Z" fill="url(#aG)"/>
+              <path d="M 60,154 C 92,154 124,121 156,121 C 188,121 220,134 252,134 C 284,134 316,97 348,97 C 380,97 412,61 444,61 C 476,61 508,47 540,47"
+                    fill="none" stroke="url(#lG)" stroke-width="2.5" stroke-linecap="round" filter="url(#glow)"/>
+              <circle cx="60"  cy="154" r="3.5" fill="#0d1421" stroke="#22d3ee" stroke-width="2"/>
+              <circle cx="156" cy="121" r="3.5" fill="#0d1421" stroke="#22d3ee" stroke-width="2"/>
+              <circle cx="252" cy="134" r="3.5" fill="#0d1421" stroke="#4dd9e8" stroke-width="2"/>
+              <circle cx="348" cy="97"  r="3.5" fill="#0d1421" stroke="#7ee8b8" stroke-width="2"/>
+              <circle cx="444" cy="61"  r="3.5" fill="#0d1421" stroke="#96e858" stroke-width="2"/>
+              <circle cx="540" cy="47"  r="5"   fill="#0d1421" stroke="#a3e635" stroke-width="2.5" filter="url(#glow)"/>
+              <text x="540" y="39" fill="#a3e635" font-size="9.5" text-anchor="middle" font-weight="700" font-family="Inter">31.200 €</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cost-benefit -->
+      <div class="roi-card">
+        <div class="roi-hd">
+          <div class="roi-title"><i class="fa-solid fa-scale-balanced"></i>Kosten-Nutzen-Übersicht</div>
+          <div class="roi-sub">Monatliche Gegenüberstellung — Juni 2026</div>
+        </div>
+        <div class="roi-body">
+          <div>
+            <div class="cb-sec-title">Monatliche Kosten</div>
+            <div class="cb-row"><span class="cb-lbl">Retainer Core Automation</span><span class="cb-val neg">− 1.800 €</span></div>
+            <div class="cb-row"><span class="cb-lbl">Workflow-Server (n8n Cloud)</span><span class="cb-val neg">− 50 €</span></div>
+            <div class="cb-row"><span class="cb-lbl">KI-API Nutzung (Claude)</span><span class="cb-val neg">− 120 €</span></div>
+            <div class="cb-row" style="border-top:1px solid var(--bdr);padding-top:5px;margin-top:2px">
+              <span class="cb-lbl" style="color:var(--txt);font-weight:600">Gesamtkosten</span>
+              <span class="cb-val neg" style="font-size:13px">− 1.970 €</span>
+            </div>
+          </div>
+          <div>
+            <div class="cb-sec-title">Generierter Mehrwert</div>
+            <div class="cb-row"><span class="cb-lbl">Zeitersparnis (84 h × 85 €/h)</span><span class="cb-val pos">+ 7.140 €</span></div>
+            <div class="cb-row"><span class="cb-lbl">Zusatzumsatz durch Follow-up</span><span class="cb-val pos">+ 31.200 €</span></div>
+            <div class="cb-row"><span class="cb-lbl">Fehlerreduktion Angebote (Ø)</span><span class="cb-val pos">+ 2.400 €</span></div>
+            <div class="cb-row" style="border-top:1px solid var(--bdr);padding-top:5px;margin-top:2px">
+              <span class="cb-lbl" style="color:var(--txt);font-weight:600">Gesamtnutzen</span>
+              <span class="cb-val pos" style="font-size:13px">+ 40.740 €</span>
+            </div>
+          </div>
+          <div class="cb-total">
+            <div>
+              <div class="cb-total-lbl">ROI diesen Monat</div>
+              <div class="cb-total-sub">Nutzen ÷ Kosten − 1 &nbsp;·&nbsp; Netto: +38.770 €</div>
+            </div>
+            <div class="cb-total-val">+1.968 %</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  document.getElementById('hdate').textContent =
+    new Date().toLocaleDateString('de-DE', {weekday:'short',day:'2-digit',month:'long',year:'numeric'});
+
+  function show(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('p-' + id).classList.add('active');
+  }
+</script>
+</body>
+</html>
